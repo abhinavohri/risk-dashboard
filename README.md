@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DeFi Risk Monitoring Dashboard
 
-## Getting Started
+A responsive, data-intensive dashboard for monitoring DeFi protocol metrics, liquidation risks, and oracle data. Built with Next.js, TypeScript, Tailwind CSS, and Recharts.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Risk Overview**: Key metrics (TVL, Health Factor, Utilization) with trend indicators.
+- **Interactive Charts**: 
+  - Time-series analysis of TVL with confidence intervals.
+  - Liquidation risk heatmap visualizing collateral vs. borrowed positions.
+- **Oracle Health**: Monitoring of price feed deviations and severity.
+- **Responsive Design**: Optimized for Desktop, Tablet, and Mobile.
+- **Real-time Simulation**: Mock data updates every 30 seconds to simulate live feeds.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS, clsx, tailwind-merge
+- **Visualization**: Recharts
+- **Icons**: Lucide React
+- **Utilities**: date-fns
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup Instructions
 
-## Learn More
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd risk_dashboard
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Build for production**
+   ```bash
+   npm run build
+   npm start
+   ```
 
-## Deploy on Vercel
+## Assumptions & Trade-offs
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Data Source**: Since real-time risk data is expensive or requires complex indexing, this project uses a hybrid approach. It fetches basic protocol data (TVL) from DefiLlama when possible, but relies on realistic mock data generators for granular risk metrics (positions, oracle events).
+- **Confidence Intervals**: The confidence interval chart uses a simulated volatility model. In a production environment, this would be calculated using historical volatility or VaR models.
+- **Heatmap**: Recharts ScatterChart is used to approximate a heatmap for liquidation risk. A dedicated heatmap library or Canvas-based solution might be more performant for thousands of positions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Live Demo
+
+[Insert Live Demo URL Here]
