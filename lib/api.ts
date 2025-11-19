@@ -3,36 +3,32 @@ import { generateProtocolMetrics } from "./mockData";
 
 const DEFILLAMA_API = "https://api.llama.fi";
 
-export async function fetchProtocolMetrics(protocolSlug: string = "aave-v3"): Promise<ProtocolMetrics> {
+export async function fetchProtocolMetrics(protocolSlug: string = "aave-v3"): Promise<ProtocolMetrics | null> {
     try {
-        // Attempt to fetch real TVL data
-        const response = await fetch(`${DEFILLAMA_API}/protocol/${protocolSlug}`);
+        const response = await fetch(`${DEFILLAMA_API}/protocol/${protocolSlug}`, {
+            next: { revalidate: 60 } 
+        });
         if (!response.ok) throw new Error("Failed to fetch from DefiLlama");
 
         const data = await response.json();
 
-        // Mix real data with mock data for fields not easily available or for simulation
+        console.log("data", data)
         const mock = generateProtocolMetrics();
 
-        // DefiLlama returns tvl as an array of historical data points or a single number depending on endpoint
-        // For /protocol/{slug}, it returns an object with `tvl` as an array.
         let currentTvl = mock.tvl;
-        if (Array.isArray(data.tvl)) {
+
+        if (Array.isArray(data.tvl) && data.tvl.length > 0) {
             const lastPoint = data.tvl[data.tvl.length - 1];
-            currentTvl = lastPoint?.totalLiquidityUSD || mock.tvl;
-        } else if (typeof data.tvl === 'number') {
-            currentTvl = data.tvl;
+            currentTvl = lastPoint?.totalLiquidityUSD ?? mock.tvl;
         }
 
         return {
             ...mock,
             protocol: data.name || protocolSlug,
             tvl: currentTvl,
-            // We use mock data for other fields as they are specific to risk analysis 
-            // and might not be directly available in the simple protocol endpoint
         };
     } catch (error) {
-        console.warn("Falling back to mock data:", error);
-        return generateProtocolMetrics();
+        console.error("Failed to fetch TVL data:", error);
+        return null;
     }
 }

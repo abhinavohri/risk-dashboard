@@ -8,7 +8,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-900">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-zinc-50 via-indigo-50/30 to-purple-50/30 dark:from-zinc-950 dark:via-indigo-950/20 dark:to-purple-950/20">
       <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
       <div className="flex flex-1">
         <Sidebar isOpen={sidebarOpen} />
@@ -17,8 +17,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </main>
         {/* Overlay for mobile sidebar */}
         {sidebarOpen && (
-          <div 
-            className="fixed inset-0 z-10 bg-black/50 md:hidden"
+          <div
+            className="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm md:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}

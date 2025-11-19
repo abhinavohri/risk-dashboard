@@ -18,7 +18,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-20 w-64 transform border-r border-zinc-200 bg-white transition-transform duration-200 ease-in-out dark:border-zinc-800 dark:bg-zinc-950 pt-16 md:translate-x-0 md:static md:pt-0",
+        "fixed inset-y-0 left-0 z-20 w-64 transform border-r border-zinc-200/50 bg-white/80 backdrop-blur-xl transition-transform duration-200 ease-in-out dark:border-zinc-800/50 dark:bg-zinc-950/80 pt-16 md:translate-x-0 md:static md:pt-0",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}
     >
@@ -27,10 +27,10 @@ export function Sidebar({ isOpen }: SidebarProps) {
           <button
             key={item.label}
             className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+              "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
               item.active
-                ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-400"
-                : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900"
+                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30"
+                : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-white"
             )}
           >
             <item.icon className="h-5 w-5" />

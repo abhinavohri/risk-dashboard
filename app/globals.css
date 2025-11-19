@@ -3,17 +3,39 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #fafafa;
-  /* zinc-50 */
-  --foreground: #18181b;
-  /* zinc-900 */
+  /* Light mode - Modern crypto aesthetic */
+  --background: #f8f9fb;
+  --foreground: #0a0b0d;
+  --primary: #6366f1; /* Indigo */
+  --primary-dark: #4f46e5;
+  --secondary: #8b5cf6; /* Purple */
+  --accent: #14b8a6; /* Teal */
+  --accent-glow: rgba(99, 102, 241, 0.15);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(99, 102, 241, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --gradient-from: #6366f1;
+  --gradient-via: #8b5cf6;
+  --gradient-to: #14b8a6;
 }
 
 .dark {
-  --background: #09090b;
-  /* zinc-950 */
-  --foreground: #fafafa;
-  /* zinc-50 */
+  /* Dark mode - Cyberpunk crypto vibes */
+  --background: #0a0b0d;
+  --foreground: #f8f9fb;
+  --primary: #818cf8; /* Lighter indigo for dark */
+  --primary-dark: #6366f1;
+  --secondary: #a78bfa; /* Lighter purple */
+  --accent: #2dd4bf; /* Brighter teal */
+  --accent-glow: rgba(129, 140, 248, 0.2);
+  --card-bg: rgba(15, 16, 20, 0.8);
+  --card-border: rgba(129, 140, 248, 0.15);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --gradient-from: #818cf8;
+  --gradient-via: #a78bfa;
+  --gradient-to: #2dd4bf;
 }
 
 body {
@@ -21,4 +43,46 @@ body {
   background: var(--background);
   font-family: var(--font-sans), sans-serif;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* Crypto-style glow effects */
+.glow-effect {
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.glow-text {
+  text-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* Glass morphism effects */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-via), var(--gradient-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated gradient background */
+.gradient-bg {
+  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-via), var(--gradient-to));
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
