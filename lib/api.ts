@@ -11,7 +11,7 @@ export interface ProtocolData {
 export async function fetchProtocolData(protocolSlug: string = "aave-v3"): Promise<ProtocolData> {
     try {
         const response = await fetch(`${DEFILLAMA_API}/protocol/${protocolSlug}`, {
-            cache: "no-store"
+            next: { revalidate: 300 }
         });
 
         if (!response.ok) throw new Error("Failed to fetch from DefiLlama");
@@ -27,15 +27,13 @@ export async function fetchProtocolData(protocolSlug: string = "aave-v3"): Promi
             const lastPoint = data.tvl[data.tvl.length - 1];
             currentTvl = lastPoint?.totalLiquidityUSD ?? mock.tvl;
 
-            // Only take last 30 days to reduce payload
             const recentTvl = data.tvl.slice(-30);
             tvlHistory = recentTvl.map((point: { date: number; totalLiquidityUSD: number }) => ({
-                timestamp: point.date * 1000, // Convert to ms
+                timestamp: point.date * 1000,
                 value: point.totalLiquidityUSD,
             }));
         }
 
-        // Return lightweight processed data (will be cached by page)
         return {
             metrics: {
                 ...mock,
@@ -46,7 +44,6 @@ export async function fetchProtocolData(protocolSlug: string = "aave-v3"): Promi
         };
     } catch (error) {
         console.error("Failed to fetch protocol data:", error);
-        // Return mock data as fallback
         return {
             metrics: generateProtocolMetrics(protocolSlug),
             tvlHistory: generateTimeSeriesData(30, protocolSlug),
