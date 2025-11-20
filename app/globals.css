@@ -55,6 +55,7 @@ body {
   background: var(--background);
   font-family: var(--font-sans), sans-serif;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  overscroll-behavior: none;
 }
 
 /* Crypto-style glow effects */
@@ -97,4 +98,5 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  overscroll-behavior: none;
 }

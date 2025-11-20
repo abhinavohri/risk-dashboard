@@ -29,14 +29,11 @@ export function Header({ toggleSidebar }: { toggleSidebar: () => void }) {
         </Link>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 md:gap-4">
         {showProtocolSelector && (
           <ProtocolSelector onProtocolChange={setProtocol} currentProtocol={protocol} />
         )}
         <ThemeToggle />
-        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white font-semibold text-sm shadow-lg">
-          DR
-        </div>
       </div>
     </header>
   );

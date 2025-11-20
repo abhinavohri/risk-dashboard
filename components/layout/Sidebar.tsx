@@ -21,11 +21,11 @@ export function Sidebar({ isOpen }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-20 w-64 transform border-r border-zinc-200/50 bg-white/80 backdrop-blur-xl transition-transform duration-200 ease-in-out dark:border-zinc-800/50 dark:bg-zinc-950/80 pt-16 md:translate-x-0 md:static md:pt-0",
+        "fixed inset-y-0 left-0 z-20 w-64 transform border-r border-zinc-200/50 bg-white/80 backdrop-blur-xl transition-transform duration-200 ease-in-out dark:border-zinc-800/50 dark:bg-zinc-950/80 pt-16 md:translate-x-0",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}
     >
-      <nav className="flex flex-col gap-2 p-4">
+      <nav className="flex h-full flex-col gap-2 overflow-y-auto p-4">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href;
           return (
