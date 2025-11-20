@@ -37,6 +37,8 @@ export function TokenIcon({ symbol, className = "h-8 w-8" }: TokenIconProps) {
         src={blockieUrl}
         alt={symbol}
         className={`${className} rounded-full`}
+        width={32}
+        height={32}
       />
     );
   }
@@ -47,6 +49,8 @@ export function TokenIcon({ symbol, className = "h-8 w-8" }: TokenIconProps) {
       alt={symbol}
       className={`${className} rounded-full`}
       onError={() => setHasError(true)}
+      width={32}
+      height={32}
     />
   );
 }
