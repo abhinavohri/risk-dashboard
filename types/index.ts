@@ -27,14 +27,14 @@ export interface RiskPosition {
   riskLevel: 'low' | 'medium' | 'high' | 'critical';
 }
 
-export interface OracleEvent {
-  id: string;
-  timestamp: number;
+export interface AssetLiquidationConfig {
   asset: string;
-  priceSource: string;
-  price: number;
-  upperPriceBound?: number;
-  lowerPriceBound?: number;
-  deviation: number; // percentage from median
-  severity: 'info' | 'warning' | 'critical';
+  ltv: number; // Loan-to-Value ratio (0-1)
+  liquidationThreshold: number; // (0-1)
+  liquidationBonus: number; // (0-1)
+  supplied: number; // Total supplied in USD
+  borrowed: number; // Total borrowed in USD
+  utilization: number; // Current utilization rate (0-1)
+  canBeCollateral: boolean;
+  canBeBorrowed: boolean;
 }

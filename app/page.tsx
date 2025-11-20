@@ -6,6 +6,7 @@ import { ArrowRight, Sparkles, Github, Twitter } from "lucide-react";
 import { CryptoScene3D } from "@/components/landing/CryptoScene3D";
 import { Features } from "@/components/landing/Features";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { PageTransition } from "@/components/PageTransition";
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false);
@@ -15,15 +16,13 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Theme toggle in top right */}
-      <div className="absolute right-8 top-8 z-50">
-        <ThemeToggle />
-      </div>
+    <PageTransition>
+      <div className="relative min-h-screen overflow-hidden">
+        <div className="absolute right-8 top-8 z-50">
+          <ThemeToggle />
+        </div>
 
-      {/* Hero Section with 3D Background */}
       <section className="relative flex min-h-screen items-center justify-center px-4 sm:px-6 lg:px-8">
-        {/* 3D Scene Background */}
         {mounted && (
           <div className="pointer-events-none absolute inset-0 opacity-60">
             <CryptoScene3D />
@@ -44,10 +43,10 @@ export default function LandingPage() {
           </div>
 
           {/* Main heading */}
-          <h1 className="mb-6 text-5xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-7xl lg:text-8xl">
+          <h1 className="mb-6 text-5xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-7xl lg:text-8xl drop-shadow-lg">
             Monitor DeFi Risks
             <br />
-            <span className="gradient-text glow-text">With Confidence</span>
+            <span className="gradient-text glow-text drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]">With Confidence</span>
           </h1>
 
           {/* Subheading */}
@@ -159,5 +158,6 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
+    </PageTransition>
   );
 }

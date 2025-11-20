@@ -1,9 +1,20 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
-import { ShieldCheck, Bell, Menu } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { ShieldCheck, Menu } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { ProtocolSelector } from "@/components/dashboard/ProtocolSelector";
+import { useProtocol } from "@/components/providers/ProtocolProvider";
 
 export function Header({ toggleSidebar }: { toggleSidebar: () => void }) {
+  const pathname = usePathname();
+  const { protocol, setProtocol } = useProtocol();
+
+  // Only show protocol selector on dashboard and liquidation pages
+  const showProtocolSelector = pathname === "/dashboard" || pathname === "/liquidation";
+
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-zinc-200/50 bg-white/80 backdrop-blur-xl px-6 dark:border-zinc-800/50 dark:bg-zinc-950/80">
       <div className="flex items-center gap-4">
@@ -18,11 +29,11 @@ export function Header({ toggleSidebar }: { toggleSidebar: () => void }) {
         </Link>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
+        {showProtocolSelector && (
+          <ProtocolSelector onProtocolChange={setProtocol} currentProtocol={protocol} />
+        )}
         <ThemeToggle />
-        <button className="p-2 text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800">
-          <Bell className="h-5 w-5" />
-        </button>
         <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white font-semibold text-sm shadow-lg">
           DR
         </div>

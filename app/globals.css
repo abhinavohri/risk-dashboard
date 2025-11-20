@@ -18,6 +18,12 @@
   --gradient-from: #6366f1;
   --gradient-via: #8b5cf6;
   --gradient-to: #14b8a6;
+
+  /* Tooltip styles */
+  --tooltip-bg: rgba(255, 255, 255, 0.95);
+  --tooltip-border: #e4e4e7;
+  --tooltip-text: #18181b;
+  --tooltip-label: #71717a;
 }
 
 .dark {
@@ -36,6 +42,12 @@
   --gradient-from: #818cf8;
   --gradient-via: #a78bfa;
   --gradient-to: #2dd4bf;
+
+  /* Tooltip styles */
+  --tooltip-bg: rgba(15, 16, 20, 0.95);
+  --tooltip-border: rgba(129, 140, 248, 0.2);
+  --tooltip-text: #ffffff;
+  --tooltip-label: #a1a1aa;
 }
 
 body {

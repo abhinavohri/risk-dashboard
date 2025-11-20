@@ -1,5 +1,9 @@
+"use client";
+
 import React from "react";
-import { LayoutDashboard, PieChart, Activity, AlertTriangle, Settings } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { LayoutDashboard, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
@@ -7,14 +11,13 @@ interface SidebarProps {
 }
 
 const NAV_ITEMS = [
-  { label: "Dashboard", icon: LayoutDashboard, active: true },
-  { label: "Market Risk", icon: Activity, active: false },
-  { label: "Liquidations", icon: AlertTriangle, active: false },
-  { label: "Analytics", icon: PieChart, active: false },
-  { label: "Settings", icon: Settings, active: false },
+  { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
+  { label: "Liquidation", icon: Target, href: "/liquidation" },
 ];
 
 export function Sidebar({ isOpen }: SidebarProps) {
+  const pathname = usePathname();
+
   return (
     <aside
       className={cn(
@@ -23,20 +26,24 @@ export function Sidebar({ isOpen }: SidebarProps) {
       )}
     >
       <nav className="flex flex-col gap-2 p-4">
-        {NAV_ITEMS.map((item) => (
-          <button
-            key={item.label}
-            className={cn(
-              "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
-              item.active
-                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30"
-                : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-white"
-            )}
-          >
-            <item.icon className="h-5 w-5" />
-            {item.label}
-          </button>
-        ))}
+        {NAV_ITEMS.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={cn(
+                "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
+                isActive
+                  ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30"
+                  : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-white"
+              )}
+            >
+              <item.icon className="h-5 w-5" />
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
     </aside>
   );

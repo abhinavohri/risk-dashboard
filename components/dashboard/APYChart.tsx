@@ -1,0 +1,79 @@
+"use client";
+
+import { memo } from "react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+
+interface APYChartProps {
+  data: Array<{
+    timestamp: number;
+    supplyAPY: number;
+    borrowAPY: number;
+  }>;
+}
+
+function APYChartComponent({ data }: APYChartProps) {
+  const chartData = data.map((point) => ({
+    date: new Date(point.timestamp).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+    "Supply APY": point.supplyAPY,
+    "Borrow APY": point.borrowAPY,
+  }));
+
+  return (
+    <div className="rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
+      <h3 className="mb-6 text-lg font-semibold text-zinc-900 dark:text-white">
+        Supply vs Borrow APY
+      </h3>
+      <div className="h-[300px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" className="dark:stroke-zinc-800" />
+            <XAxis
+              dataKey="date"
+              stroke="#71717a"
+              fontSize={12}
+              tickLine={false}
+              label={{ value: 'Date', position: 'insideBottom', offset: -5, style: { fill: '#71717a', fontSize: 12 } }}
+            />
+            <YAxis
+              stroke="#71717a"
+              fontSize={12}
+              tickLine={false}
+              tickFormatter={(value) => `${value.toFixed(1)}%`}
+              label={{ value: 'APY (%)', angle: -90, position: 'insideLeft', style: { fill: '#71717a', fontSize: 12 } }}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "var(--tooltip-bg)",
+                border: "1px solid var(--tooltip-border)",
+                borderRadius: "8px",
+                color: "var(--tooltip-text)",
+              }}
+              labelStyle={{ color: "var(--tooltip-label)" }}
+              formatter={(value: number, name: string) => [`${Number(value).toFixed(2)}%`, name]}
+            />
+            <Legend wrapperStyle={{ paddingTop: '20px' }} />
+            <Line
+              type="monotone"
+              dataKey="Supply APY"
+              stroke="#10b981"
+              strokeWidth={2}
+              dot={false}
+              name="Supply APY"
+            />
+            <Line
+              type="monotone"
+              dataKey="Borrow APY"
+              stroke="#f59e0b"
+              strokeWidth={2}
+              dot={false}
+              name="Borrow APY"
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
+
+export const APYChart = memo(APYChartComponent);
+APYChart.displayName = "APYChart";
