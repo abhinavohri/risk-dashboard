@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import blockies from "ethereum-blockies-base64";
+import Image from "next/image";
 
 interface TokenIconProps {
   symbol: string;
   className?: string;
 }
 
-// Map of token symbols to their contract addresses for icon fetching
 const TOKEN_ADDRESSES: Record<string, string> = {
   ETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", // WETH
   WBTC: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
@@ -27,14 +27,13 @@ export function TokenIcon({ symbol, className = "h-8 w-8" }: TokenIconProps) {
   // Generate blockie as fallback
   const blockieUrl = address ? blockies(address) : blockies(symbol);
 
-  // Use Trust Wallet's asset CDN
   const tokenIconUrl = address
     ? `https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/${address}/logo.png`
     : null;
 
   if (!tokenIconUrl || hasError) {
     return (
-      <img
+      <Image
         src={blockieUrl}
         alt={symbol}
         className={`${className} rounded-full`}
@@ -43,7 +42,7 @@ export function TokenIcon({ symbol, className = "h-8 w-8" }: TokenIconProps) {
   }
 
   return (
-    <img
+    <Image
       src={tokenIconUrl}
       alt={symbol}
       className={`${className} rounded-full`}
