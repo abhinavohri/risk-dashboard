@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const PROTOCOLS = [
-  { id: "aave-v3", name: "Aave V3", icon: "🔷" },
+  { id: "aave-v3", name: "AAVE", icon: "🔷" },
   { id: "compound", name: "Compound", icon: "🟢" },
 ];
 

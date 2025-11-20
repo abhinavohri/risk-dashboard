@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import numbro from "numbro";
 import { fetchProtocolDataClient, ProtocolData } from "@/lib/api";
@@ -15,6 +15,7 @@ import { ReserveCompositionChart } from "./ReserveCompositionChart";
 import { generateRiskPositions, generateOracleDeviationData, generateAPYData, generateReserveData } from "@/lib/mockData";
 import { Activity, DollarSign, Percent, ShieldAlert, TrendingUp } from "lucide-react";
 import { useProtocol } from "@/components/providers/ProtocolProvider";
+import DashboardLoading from "@/app/dashboard/loading";
 
 interface DashboardContainerProps {
   initialData: ProtocolData;
@@ -22,9 +23,8 @@ interface DashboardContainerProps {
 
 export function DashboardContainer({ initialData }: DashboardContainerProps) {
   const { protocol } = useProtocol();
-  const [isChangingProtocol, setIsChangingProtocol] = useState(false);
 
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["protocolData", protocol],
     queryFn: () => fetchProtocolDataClient(protocol),
     initialData,
@@ -32,42 +32,50 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
     staleTime: 60 * 1000,
   });
 
-  // Track protocol changes for loading state
-  useEffect(() => {
-    setIsChangingProtocol(true);
-    const timer = setTimeout(() => setIsChangingProtocol(false), 500);
-    return () => clearTimeout(timer);
-  }, [protocol]);
+  const isLoadingNewProtocol = isFetching && data?.metrics.protocol !== protocol;
 
-  const [liveMetrics, setLiveMetrics] = useState(() => ({
-    healthFactor: initialData.metrics.averageHealthFactor,
-    utilizationRate: initialData.metrics.utilizationRate,
-    liquidations: initialData.metrics.liquidationsLast24h,
-    supplyAPY: 3.2,
-    borrowAPY: 6.5,
-  }));
+  const riskPositions = useMemo(() => generateRiskPositions(50), [protocol]);
+  const oracleData = useMemo(() => generateOracleDeviationData(24, protocol), [protocol]);
+  const apyData = useMemo(() => generateAPYData(30, protocol), [protocol]);
+  const reserveData = useMemo(() => generateReserveData(protocol), [protocol]);
+
+  const [liveMetrics, setLiveMetrics] = useState(() => {
+    const initialApyData = generateAPYData(30, protocol);
+    const latestApy = initialApyData[initialApyData.length - 1];
+
+    return {
+      healthFactor: initialData.metrics.averageHealthFactor,
+      utilizationRate: initialData.metrics.utilizationRate,
+      liquidations: initialData.metrics.liquidationsLast24h,
+      supplyAPY: latestApy?.supplyAPY ?? 3.5,
+      borrowAPY: latestApy?.borrowAPY ?? 6.5,
+    };
+  });
 
   const [prevMetrics, setPrevMetrics] = useState(liveMetrics);
-  const [lastUpdated, setLastUpdated] = useState<string>("");
 
-  // Protocol-specific data (regenerated when protocol changes)
-  const [riskPositions, setRiskPositions] = useState(() => generateRiskPositions(50));
-  const [oracleData, setOracleData] = useState(() => generateOracleDeviationData(24, protocol));
-  const [apyData, setApyData] = useState(() => generateAPYData(30, protocol));
-  const [reserveData, setReserveData] = useState(() => generateReserveData(protocol));
-
-  // Regenerate data when protocol changes
-  useEffect(() => {
-    setOracleData(generateOracleDeviationData(24, protocol));
-    setApyData(generateAPYData(30, protocol));
-    setReserveData(generateReserveData(protocol));
-  }, [protocol]);
+  const lastUpdated = data?.metrics.timestamp
+    ? new Date(data.metrics.timestamp).toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      })
+    : "";
 
   useEffect(() => {
-    if (data?.metrics.timestamp) {
-      setLastUpdated(new Date(data.metrics.timestamp).toLocaleTimeString());
+    if (data) {
+      const newLatestApy = apyData[apyData.length - 1];
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLiveMetrics({
+        healthFactor: data.metrics.averageHealthFactor,
+        utilizationRate: data.metrics.utilizationRate,
+        liquidations: data.metrics.liquidationsLast24h,
+        supplyAPY: newLatestApy.supplyAPY,
+        borrowAPY: newLatestApy.borrowAPY,
+      });
     }
-  }, [data?.metrics.timestamp]);
+  }, [protocol, data, apyData]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -110,17 +118,8 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
     trend: (liveMetrics.liquidations > prevMetrics.liquidations ? "up" : liveMetrics.liquidations < prevMetrics.liquidations ? "down" : "neutral") as "up" | "down" | "neutral",
   };
 
-  if (isChangingProtocol || isLoading) {
-    return (
-      <div className="relative min-h-screen">
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm dark:bg-zinc-950/80">
-          <div className="text-center">
-            <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent"></div>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">Loading {protocol === "aave-v3" ? "Aave V3" : "Compound"} data...</p>
-          </div>
-        </div>
-      </div>
-    );
+  if (isLoadingNewProtocol) {
+    return <DashboardLoading />;
   }
 
   return (
