@@ -48,6 +48,7 @@ export function ProtocolSelector() {
               <Link
                 key={p.id}
                 href={getHref(p.id)}
+                scroll={false}
                 onClick={() => setIsOpen(false)}
                 className={cn(
                   "flex w-full items-center gap-2 px-3 py-2 text-left text-xs transition-colors first:rounded-t-lg last:rounded-b-lg sm:gap-3 sm:px-4 sm:py-3 sm:text-sm",

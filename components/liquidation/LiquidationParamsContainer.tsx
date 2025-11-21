@@ -3,7 +3,6 @@
 import { AssetLiquidationConfig } from "@/types";
 import { LiquidationTable } from "./LiquidationTable";
 import { LiquidationKPIs } from "./LiquidationKPIs";
-import { ChartWatermark } from "../dashboard/ChartWatermark";
 
 interface LiquidationParamsContainerProps {
   data: AssetLiquidationConfig[];
