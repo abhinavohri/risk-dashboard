@@ -23,7 +23,7 @@ const PROTOCOL_CONFIG: Record<string, {
         oracleBasePrice: 2000,
         oracleVolatility: 1.0,
     },
-    "compound": {
+    "compound-finance": {
         tvlBase: 8900000,
         borrowBase: 5200000,
         utilization: 0.58,
