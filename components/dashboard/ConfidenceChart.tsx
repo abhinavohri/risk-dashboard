@@ -29,32 +29,26 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
   const [activeTab, setActiveTab] = useState<VolatilityTab>("tvl");
   const [timeRange, setTimeRange] = useState<TimeRange>("30d");
 
-  // Filter data based on selected time range
   const filteredData = React.useMemo(() => {
     const now = Date.now();
     const cutoffTime = now - TIME_RANGE_MS[timeRange];
     return data.filter(point => point.timestamp >= cutoffTime);
   }, [data, timeRange]);
 
-  // Transform data to include range for proper area filling (memoized to avoid recalculation)
   const chartData = React.useMemo(() =>
     filteredData.map((point, index) => {
-      // Use index-based seeded random for consistent values
       const seed = index / filteredData.length;
       const borrowRate = 0.03 + seed * 0.05; // 3-8% borrow rate
       const utilizationValue = 0.5 + seed * 0.3;
 
       return {
         timestamp: point.timestamp,
-        // TVL
         tvlValue: point.value,
         tvlLower: point.lowerBound || point.value * 0.9,
         tvlUpper: point.upperBound || point.value * 1.1,
-        // Borrow Rate (as percentage)
         borrowValue: borrowRate,
         borrowLower: borrowRate * 0.9,
         borrowUpper: borrowRate * 1.1,
-        // Utilization
         utilizationValue,
         utilizationLower: Math.max(0.1, utilizationValue * 0.85),
         utilizationUpper: Math.min(0.95, utilizationValue * 1.15),
@@ -71,7 +65,7 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
   const currentTab = tabs.find((t) => t.key === activeTab)!;
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5 dark:border-zinc-800/50 dark:bg-zinc-900/80">
+    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
       <ChartWatermark />
       <div className="mb-4 relative" style={{ zIndex: 10 }}>
         <div className="flex items-center justify-between mb-3">

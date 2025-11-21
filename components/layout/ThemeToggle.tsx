@@ -36,7 +36,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative h-8 w-14 rounded-full bg-zinc-200 p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-zinc-700 dark:focus:ring-offset-zinc-900"
+      className="relative h-8 w-14 rounded-full bg-zinc-200 p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 dark:bg-zinc-700 dark:focus:ring-offset-zinc-900"
       aria-label="Toggle theme"
     >
       <div
@@ -45,7 +45,7 @@ export function ThemeToggle() {
         }`}
       >
         {isDark ? (
-          <Moon className="h-4 w-4 text-indigo-600" />
+          <Moon className="h-4 w-4 text-blue-600" />
         ) : (
           <Sun className="h-4 w-4 text-amber-500" />
         )}

@@ -9,7 +9,7 @@ interface LiquidationParamsContainerProps {
   protocol: string;
 }
 
-export function LiquidationParamsContainer({ data, protocol }: LiquidationParamsContainerProps) {
+export function LiquidationParamsContainer({ data }: LiquidationParamsContainerProps) {
 
   return (
     <>

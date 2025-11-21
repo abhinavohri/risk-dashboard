@@ -2,7 +2,7 @@
 
 import { AssetLiquidationConfig } from "@/types";
 import { RiskOverviewCard } from "@/components/dashboard/RiskOverviewCard";
-import { Shield, Target, TrendingDown, Percent, Layers, DollarSign, AlertTriangle } from "lucide-react";
+import { Target, TrendingDown, Percent, Layers, DollarSign, AlertTriangle } from "lucide-react";
 import numbro from "numbro";
 
 interface LiquidationKPIsProps {

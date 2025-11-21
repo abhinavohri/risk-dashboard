@@ -1,6 +1,6 @@
 "use client";
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { TokenDistribution } from "@/types";
 import numbro from "numbro";
 import { ChartWatermark } from "./ChartWatermark";
