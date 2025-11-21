@@ -28,8 +28,8 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
     queryKey: ["protocolData", protocol],
     queryFn: () => fetchProtocolDataClient(protocol),
     initialData,
-    refetchInterval: 60 * 1000,
-    staleTime: 60 * 1000,
+    refetchInterval: 5 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
   });
 
   const isLoadingNewProtocol = isFetching && data?.metrics.protocol !== protocol;
