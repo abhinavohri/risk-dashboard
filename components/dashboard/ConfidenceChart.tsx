@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import numbro from "numbro";
 import { TimeSeriesPoint } from "@/types";
 import { cn } from "@/lib/utils";
+import { TimeRangeFilter, TimeRange, TIME_RANGE_MS } from "./TimeRangeFilter";
 
 interface ConfidenceChartProps {
   data: TimeSeriesPoint[];
@@ -25,12 +26,20 @@ type VolatilityTab = "tvl" | "borrow" | "utilization";
 
 export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
   const [activeTab, setActiveTab] = useState<VolatilityTab>("tvl");
+  const [timeRange, setTimeRange] = useState<TimeRange>("30d");
+
+  // Filter data based on selected time range
+  const filteredData = React.useMemo(() => {
+    const now = Date.now();
+    const cutoffTime = now - TIME_RANGE_MS[timeRange];
+    return data.filter(point => point.timestamp >= cutoffTime);
+  }, [data, timeRange]);
 
   // Transform data to include range for proper area filling (memoized to avoid recalculation)
   const chartData = React.useMemo(() =>
-    data.map((point, index) => {
+    filteredData.map((point, index) => {
       // Use index-based seeded random for consistent values
-      const seed = index / data.length;
+      const seed = index / filteredData.length;
       const borrowRate = 0.03 + seed * 0.05; // 3-8% borrow rate
       const utilizationValue = 0.5 + seed * 0.3;
 
@@ -49,7 +58,7 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
         utilizationLower: Math.max(0.1, utilizationValue * 0.85),
         utilizationUpper: Math.min(0.95, utilizationValue * 1.15),
       };
-    }), [data]
+    }), [filteredData]
   );
 
   const tabs: { key: VolatilityTab; label: string; color: string }[] = [
@@ -62,24 +71,27 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
 
   return (
     <div className="group overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5 dark:border-zinc-800/50 dark:bg-zinc-900/80">
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">{title}</h3>
-        <div className="flex gap-2">
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className={cn(
-                "rounded-lg px-3 py-1.5 text-sm font-medium transition-all",
-                activeTab === tab.key
-                  ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
-                  : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">{title}</h3>
+          <div className="flex gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={cn(
+                  "rounded-lg px-3 py-1.5 text-sm font-medium transition-all",
+                  activeTab === tab.key
+                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+                    : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
+        <TimeRangeFilter value={timeRange} onChange={setTimeRange} />
       </div>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -99,6 +111,8 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
               fontSize={12}
               tickLine={false}
               axisLine={false}
+              interval="preserveStartEnd"
+              minTickGap={50}
               label={{ value: 'Date', position: 'insideBottom', offset: -5, style: { fill: '#71717a', fontSize: 12 } }}
             />
             <YAxis

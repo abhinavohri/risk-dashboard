@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import numbro from "numbro";
 import { TimeSeriesPoint } from "@/types";
 import { cn } from "@/lib/utils";
+import { TimeRangeFilter, TimeRange, TIME_RANGE_MS } from "./TimeRangeFilter";
 
 interface TimeSeriesChartProps {
   data: TimeSeriesPoint[];
@@ -33,19 +34,25 @@ export function TimeSeriesChart({
   type = "line",
 }: TimeSeriesChartProps) {
   const [activeTab, setActiveTab] = useState<MetricTab>("tvl");
+  const [timeRange, setTimeRange] = useState<TimeRange>("30d");
   const ChartComponent = type === "line" ? LineChart : AreaChart;
   const DataComponent = type === "line" ? Line : Area;
 
-  // Generate mock data for borrow rate and utilization (memoized)
+  const filteredData = React.useMemo(() => {
+    const now = Date.now();
+    const cutoffTime = now - TIME_RANGE_MS[timeRange];
+    return data.filter(point => point.timestamp >= cutoffTime);
+  }, [data, timeRange]);
+
   const chartData = React.useMemo(() =>
-    data.map((point, index) => {
-      const seed = index / data.length;
+    filteredData.map((point, index) => {
+      const seed = index / filteredData.length;
       return {
         ...point,
         borrow: 0.03 + seed * 0.05, // 3-8% borrow rate
         utilization: 0.5 + seed * 0.3, // 50-80% utilization
       };
-    }), [data]
+    }), [filteredData]
   );
 
   const tabs: { key: MetricTab; label: string; color: string }[] = [
@@ -58,24 +65,27 @@ export function TimeSeriesChart({
 
   return (
     <div className="group overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5 dark:border-zinc-800/50 dark:bg-zinc-900/80">
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">{title}</h3>
-        <div className="flex gap-2">
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className={cn(
-                "rounded-lg px-3 py-1.5 text-sm font-medium transition-all",
-                activeTab === tab.key
-                  ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
-                  : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">{title}</h3>
+          <div className="flex gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={cn(
+                  "rounded-lg px-3 py-1.5 text-sm font-medium transition-all",
+                  activeTab === tab.key
+                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+                    : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
+        <TimeRangeFilter value={timeRange} onChange={setTimeRange} />
       </div>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -89,6 +99,8 @@ export function TimeSeriesChart({
               fontSize={12}
               tickLine={false}
               axisLine={false}
+              interval="preserveStartEnd"
+              minTickGap={50}
               label={{ value: 'Date', position: 'insideBottom', offset: -5, style: { fill: '#71717a', fontSize: 12 } }}
             />
             <YAxis
