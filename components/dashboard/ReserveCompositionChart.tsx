@@ -18,7 +18,7 @@ interface ReserveCompositionChartProps {
 function ReserveCompositionChartComponent({ data }: ReserveCompositionChartProps) {
   const chartData = data.map((item) => ({
     name: item.asset,
-    Supplied: item.supplied / 1000000, // Convert to millions
+    Supplied: item.supplied / 1000000,
     Borrowed: item.borrowed / 1000000,
   }));
 

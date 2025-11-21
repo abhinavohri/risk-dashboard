@@ -22,7 +22,6 @@ import { ChartWatermark } from "./ChartWatermark";
 interface TimeSeriesChartProps {
   data: TimeSeriesPoint[];
   title: string;
-  color?: string;
   type?: "line" | "area";
 }
 
@@ -31,7 +30,6 @@ type MetricTab = "tvl" | "borrow" | "utilization";
 export function TimeSeriesChart({
   data,
   title,
-  color = "#6366f1",
   type = "line",
 }: TimeSeriesChartProps) {
   const [activeTab, setActiveTab] = useState<MetricTab>("tvl");
