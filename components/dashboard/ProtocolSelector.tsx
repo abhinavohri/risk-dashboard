@@ -3,20 +3,27 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useProtocol } from "@/components/providers/ProtocolProvider";
 
 const PROTOCOLS = [
-  { id: "aave-v3", name: "AAVE", icon: "🔷" },
-  { id: "compound", name: "Compound", icon: "🟢" },
+  { id: "aave", name: "AAVE", icon: "🔷" },
+  { id: "compound-finance", name: "Compound", icon: "🟢" },
 ];
 
-interface ProtocolSelectorProps {
-  onProtocolChange: (protocolId: string) => void;
-  currentProtocol?: string;
-}
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-export function ProtocolSelector({ onProtocolChange, currentProtocol = "aave-v3" }: ProtocolSelectorProps) {
+export function ProtocolSelector() {
   const [isOpen, setIsOpen] = useState(false);
-  const selectedProtocol = PROTOCOLS.find((p) => p.id === currentProtocol) || PROTOCOLS[0];
+  const { protocol } = useProtocol();
+  const searchParams = useSearchParams();
+  const selectedProtocol = PROTOCOLS.find((p) => p.id === protocol) || PROTOCOLS[0];
+
+  const getHref = (protocolId: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("protocol", protocolId);
+    return `?${params.toString()}`;
+  };
 
   return (
     <div className="relative">
@@ -37,23 +44,21 @@ export function ProtocolSelector({ onProtocolChange, currentProtocol = "aave-v3"
             onClick={() => setIsOpen(false)}
           />
           <div className="absolute right-0 top-full z-20 mt-2 w-36 rounded-lg border border-zinc-200 bg-white shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:w-40 md:w-48">
-            {PROTOCOLS.map((protocol) => (
-              <button
-                key={protocol.id}
-                onClick={() => {
-                  onProtocolChange(protocol.id);
-                  setIsOpen(false);
-                }}
+            {PROTOCOLS.map((p) => (
+              <Link
+                key={p.id}
+                href={getHref(p.id)}
+                onClick={() => setIsOpen(false)}
                 className={cn(
                   "flex w-full items-center gap-2 px-3 py-2 text-left text-xs transition-colors first:rounded-t-lg last:rounded-b-lg sm:gap-3 sm:px-4 sm:py-3 sm:text-sm",
-                  protocol.id === currentProtocol
+                  p.id === protocol
                     ? "bg-indigo-50 text-indigo-900 dark:bg-indigo-950 dark:text-indigo-100"
                     : "text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
                 )}
               >
-                <span className="text-sm sm:text-base md:text-lg">{protocol.icon}</span>
-                <span className="font-medium">{protocol.name}</span>
-              </button>
+                <span className="text-sm sm:text-base md:text-lg">{p.icon}</span>
+                <span className="font-medium">{p.name}</span>
+              </Link>
             ))}
           </div>
         </>

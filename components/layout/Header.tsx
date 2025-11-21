@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShieldCheck, Menu } from "lucide-react";
@@ -31,7 +31,9 @@ export function Header({ toggleSidebar }: { toggleSidebar: () => void }) {
 
       <div className="flex items-center gap-3 md:gap-4">
         {showProtocolSelector && (
-          <ProtocolSelector onProtocolChange={setProtocol} currentProtocol={protocol} />
+          <Suspense fallback={<div className="h-9 w-32 animate-pulse rounded-lg bg-zinc-100 dark:bg-zinc-800" />}>
+            <ProtocolSelector />
+          </Suspense>
         )}
         <ThemeToggle />
       </div>

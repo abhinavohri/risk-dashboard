@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useProtocol } from "@/components/providers/ProtocolProvider"; // Import useProtocol
 
 interface SidebarProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ const NAV_ITEMS = [
 
 export function Sidebar({ isOpen }: SidebarProps) {
   const pathname = usePathname();
+  const { protocol } = useProtocol();
 
   return (
     <aside
@@ -28,10 +30,11 @@ export function Sidebar({ isOpen }: SidebarProps) {
       <nav className="flex h-full flex-col gap-2 overflow-y-auto p-4">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href;
+          const dynamicHref = `${item.href}?protocol=${protocol}`;
           return (
             <Link
               key={item.label}
-              href={item.href}
+              href={dynamicHref}
               className={cn(
                 "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
                 isActive

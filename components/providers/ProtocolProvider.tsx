@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useCallback } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface ProtocolContextType {
   protocol: string;
@@ -10,7 +11,19 @@ interface ProtocolContextType {
 const ProtocolContext = createContext<ProtocolContextType | undefined>(undefined);
 
 export function ProtocolProvider({ children }: { children: ReactNode }) {
-  const [protocol, setProtocol] = useState("aave-v3");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const protocol = searchParams.get("protocol") || "aave";
+
+  const setProtocol = useCallback(
+    (newProtocol: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set("protocol", newProtocol);
+      router.push(`${pathname}?${params.toString()}`);
+    },
+    [searchParams, pathname, router]
+  );
 
   return (
     <ProtocolContext.Provider value={{ protocol, setProtocol }}>

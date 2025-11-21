@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import React from "react";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/QueryProvider";
@@ -23,9 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={spaceGrotesk.className}>
-        <ProtocolProvider>
-          <QueryProvider>{children}</QueryProvider>
-        </ProtocolProvider>
+        <React.Suspense>
+          <ProtocolProvider>
+            <QueryProvider>{children}</QueryProvider>
+          </ProtocolProvider>
+        </React.Suspense>
       </body>
     </html>
   );
