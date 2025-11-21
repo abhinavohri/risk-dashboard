@@ -38,3 +38,29 @@ export interface AssetLiquidationConfig {
   canBeCollateral: boolean;
   canBeBorrowed: boolean;
 }
+
+export interface OracleDeviationPoint {
+  timestamp: number;
+  chainlink: number;
+  uniswap: number;
+  band: number;
+}
+
+export interface TokenDistribution {
+  name: string;
+  value: number; // in USD
+  percentage: number; // 0-100
+  color: string;
+}
+
+export interface APYPoint {
+  timestamp: number;
+  supplyAPY: number;
+  borrowAPY: number;
+}
+
+export interface ReserveDataPoint {
+  asset: string;
+  supplied: number;
+  borrowed: number;
+}

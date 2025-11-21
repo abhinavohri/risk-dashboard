@@ -1,94 +1,79 @@
 "use client";
 
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { TokenDistribution } from "@/types";
+import numbro from "numbro";
 
-const ASSET_DATA = [
-  { name: "ETH", value: 35.2, color: "#627EEA" },
-  { name: "WBTC", value: 25.8, color: "#F7931A" },
-  { name: "USDC", value: 20.1, color: "#2775CA" },
-  { name: "DAI", value: 12.3, color: "#F5AC37" },
-  { name: "USDT", value: 4.7, color: "#26A17B" },
-  { name: "Other", value: 1.9, color: "#9CA3AF" },
-];
+interface AssetDistributionChartProps {
+  data: TokenDistribution[];
+}
 
-const renderLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }: any) => {
-  const RADIAN = Math.PI / 180;
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
+const renderLegend = (props: any) => {
+  const { payload } = props;
   return (
-    <g>
-      {/* Background stroke for better visibility */}
-      <text
-        x={x}
-        y={y}
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-        className="text-xs font-bold pointer-events-none stroke-white dark:stroke-zinc-900"
-        strokeWidth="3"
-        fill="none"
-      >
-        {`${name} ${(percent * 100).toFixed(1)}%`}
-      </text>
-      {/* Main text */}
-      <text
-        x={x}
-        y={y}
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-        className="text-xs font-bold pointer-events-none fill-zinc-900 dark:fill-white"
-      >
-        {`${name} ${(percent * 100).toFixed(1)}%`}
-      </text>
-    </g>
+    <div className="mt-4 grid grid-cols-2 gap-3">
+      {payload.map((entry: any) => {
+        const formattedValue = numbro(entry.payload.valueUsd).formatCurrency({
+          average: true,
+          mantissa: 1,
+          optionalMantissa: true,
+        });
+        return (
+          <div key={entry.value} className="flex items-center gap-2">
+            <div
+              className="h-3 w-3 rounded-full"
+              style={{ backgroundColor: entry.color }}
+            />
+            <span className="text-sm text-zinc-600 dark:text-zinc-400">
+              {entry.value}: {entry.payload.value.toFixed(1)}% ({formattedValue})
+            </span>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
-export function AssetDistributionChart() {
+export function AssetDistributionChart({ data }: AssetDistributionChartProps) {
+  const chartData = data.map((token) => ({
+    name: token.name,
+    value: token.percentage,
+    color: token.color,
+    valueUsd: token.value,
+  }));
+
   return (
     <div className="overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
       <h3 className="mb-6 text-lg font-semibold text-zinc-900 dark:text-white">
         Collateral Composition
       </h3>
-      <div className="h-[300px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={ASSET_DATA}
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={100}
-              paddingAngle={2}
-              dataKey="value"
-              label={renderLabel}
-              labelLine={false}
-              isAnimationActive={false}
-              activeShape={undefined}
-            >
-              {ASSET_DATA.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* Custom Legend */}
-      <div className="mt-4 grid grid-cols-2 gap-3">
-        {ASSET_DATA.map((asset) => (
-          <div key={asset.name} className="flex items-center gap-2">
-            <div
-              className="h-3 w-3 rounded-full"
-              style={{ backgroundColor: asset.color }}
-            />
-            <span className="text-sm text-zinc-600 dark:text-zinc-400">
-              {asset.name}: {asset.value.toFixed(1)}%
-            </span>
-          </div>
-        ))}
-      </div>
+      {chartData.length > 0 ? (
+        <div className="h-[400px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={chartData}
+                cx="50%"
+                cy="40%"
+                innerRadius={60}
+                outerRadius={100}
+                paddingAngle={2}
+                dataKey="value"
+                isAnimationActive={true}
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
+                ))}
+              </Pie>
+              <Legend content={renderLegend} verticalAlign="bottom" />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      ) : (
+        <div className="flex h-[300px] items-center justify-center text-zinc-500">
+          No token distribution data available
+        </div>
+      )}
     </div>
   );
 }
