@@ -1,31 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { AssetLiquidationConfig } from "@/types";
-import { generateAssetLiquidationData } from "@/lib/mockData";
 import { LiquidationTable } from "./LiquidationTable";
 import { LiquidationKPIs } from "./LiquidationKPIs";
-import { useProtocol } from "@/components/providers/ProtocolProvider";
 
 interface LiquidationParamsContainerProps {
-  initialData: AssetLiquidationConfig[];
+  data: AssetLiquidationConfig[];
+  protocol: string;
 }
 
-export function LiquidationParamsContainer({ initialData }: LiquidationParamsContainerProps) {
-  const { protocol } = useProtocol();
-  const [data, setData] = useState<AssetLiquidationConfig[]>(initialData);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-    // Simulate async data fetching
-    const timer = setTimeout(() => {
-      setData(generateAssetLiquidationData(protocol));
-      setIsLoading(false);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [protocol]);
+export function LiquidationParamsContainer({ data, protocol }: LiquidationParamsContainerProps) {
 
   return (
     <>
@@ -43,7 +27,7 @@ export function LiquidationParamsContainer({ initialData }: LiquidationParamsCon
         <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">
           Protocol Risk Overview
         </h2>
-        <LiquidationKPIs data={data} isLoading={isLoading} />
+        <LiquidationKPIs data={data} />
       </div>
 
       {/* Table Section */}
@@ -54,7 +38,7 @@ export function LiquidationParamsContainer({ initialData }: LiquidationParamsCon
         <p className="mb-4 text-sm text-zinc-500 dark:text-zinc-400">
           Detailed liquidation parameters and collateral settings for each supported asset
         </p>
-        <LiquidationTable data={data} isLoading={isLoading} />
+        <LiquidationTable data={data} />
       </div>
     </>
   );

@@ -2,12 +2,12 @@
 
 import { AssetLiquidationConfig } from "@/types";
 import { RiskOverviewCard } from "@/components/dashboard/RiskOverviewCard";
-import { Shield, Target, TrendingDown, Percent } from "lucide-react";
+import { Shield, Target, TrendingDown, Percent, Layers, DollarSign, AlertTriangle } from "lucide-react";
 import numbro from "numbro";
 
 interface LiquidationKPIsProps {
   data: AssetLiquidationConfig[];
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export function LiquidationKPIs({ data, isLoading }: LiquidationKPIsProps) {
@@ -63,46 +63,32 @@ export function LiquidationKPIs({ data, isLoading }: LiquidationKPIsProps) {
       </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="rounded-2xl border border-zinc-200/50 bg-white/80 p-6 backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
-          <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            Total Assets
-          </p>
-          <p className="mt-2 text-2xl font-bold text-zinc-900 dark:text-white">
-            {data.length}
-          </p>
-          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-500">
-            {collateralAssets.length} can be used as collateral
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-zinc-200/50 bg-white/80 p-6 backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
-          <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            Total Supplied
-          </p>
-          <p className="mt-2 text-2xl font-bold text-zinc-900 dark:text-white">
-            {numbro(totalSupplied)
-              .formatCurrency({ average: true, mantissa: 2 })
-              .toUpperCase()}
-          </p>
-          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-500">
-            {numbro(totalBorrowed)
-              .formatCurrency({ average: true, mantissa: 2 })
-              .toUpperCase()}{" "}
-            borrowed
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-zinc-200/50 bg-white/80 p-6 backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
-          <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            High Risk Assets
-          </p>
-          <p className="mt-2 text-2xl font-bold text-zinc-900 dark:text-white">
-            {highRiskAssets}
-          </p>
-          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-500">
-            Max utilization: {(maxUtilization * 100).toFixed(1)}%
-          </p>
-        </div>
+        <RiskOverviewCard
+          title="Total Assets"
+          value={data.length.toString()}
+          description={`${collateralAssets.length} can be used as collateral`}
+          tooltip="Number of supported assets in the protocol"
+          icon={Layers}
+        />
+        <RiskOverviewCard
+          title="Total Supplied"
+          value={numbro(totalSupplied)
+            .formatCurrency({ average: true, mantissa: 2, optionalMantissa: true })
+            .toUpperCase()}
+          description={`${numbro(totalBorrowed)
+            .formatCurrency({ average: true, mantissa: 2, optionalMantissa: true })
+            .toUpperCase()} borrowed`}
+          tooltip="Total value supplied and borrowed across all assets"
+          icon={DollarSign}
+        />
+        <RiskOverviewCard
+          title="High Risk Assets"
+          value={highRiskAssets.toString()}
+          description={`Max utilization: ${(maxUtilization * 100).toFixed(1)}%`}
+          tooltip="Assets with >80% utilization rate"
+          icon={AlertTriangle}
+          status={highRiskAssets > 3 ? "critical" : highRiskAssets > 0 ? "warning" : "healthy"}
+        />
       </div>
     </>
   );

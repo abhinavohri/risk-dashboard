@@ -7,7 +7,7 @@ import { TokenIcon } from "@/components/ui/TokenIcon";
 
 interface LiquidationTableProps {
   data: AssetLiquidationConfig[];
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export function LiquidationTable({ data, isLoading }: LiquidationTableProps) {
