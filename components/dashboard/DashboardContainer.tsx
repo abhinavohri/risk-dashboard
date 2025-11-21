@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import numbro from "numbro";
 import { fetchProtocolDataClient, ProtocolData } from "@/lib/api";
@@ -12,10 +12,9 @@ import { OracleDeviationChart } from "./OracleDeviationChart";
 import { AssetDistributionChart } from "./AssetDistributionChart";
 import { APYChart } from "./APYChart";
 import { ReserveCompositionChart } from "./ReserveCompositionChart";
-import { generateRiskPositions, generateOracleDeviationData, generateAPYData, generateReserveData } from "@/lib/mockData";
 import { Activity, DollarSign, Percent, ShieldAlert, TrendingUp } from "lucide-react";
 import { useProtocol } from "@/components/providers/ProtocolProvider";
-import DashboardLoading from "@/app/dashboard/loading";
+import { DashboardSkeleton } from "./DashboardSkeleton";
 
 interface DashboardContainerProps {
   initialData: ProtocolData;
@@ -37,7 +36,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
   const tokenDistribution = data?.tokenDistribution || [];
   const riskPositions = data?.riskPositions || [];
   const oracleData = data?.oracleData || [];
-  const apyData = data?.apyData || [];
+  const apyData = useMemo(() => data?.apyData || [], [data?.apyData]);
   const reserveData = data?.reserveData || [];
 
   const latestApy = apyData[apyData.length - 1];
@@ -107,39 +106,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
       })
     : "";
 
-  useEffect(() => {
-    if (data) {
-      const newLatestApy = apyData[apyData.length - 1];
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setLiveMetrics({
-        healthFactor: data.metrics.averageHealthFactor,
-        utilizationRate: data.metrics.utilizationRate,
-        liquidations: data.metrics.liquidationsLast24h,
-        supplyAPY: newLatestApy.supplyAPY,
-        borrowAPY: newLatestApy.borrowAPY,
-      });
-    }
-  }, [protocol, data, apyData]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLiveMetrics((prev) => {
-        setPrevMetrics(prev);
-
-        return {
-          healthFactor: Math.max(1.0, prev.healthFactor + (Math.random() - 0.5) * 0.05),
-          utilizationRate: Math.max(0.1, Math.min(0.95, prev.utilizationRate + (Math.random() - 0.5) * 0.02)),
-          liquidations: Math.max(0, Math.floor(prev.liquidations + (Math.random() - 0.7) * 2)),
-          supplyAPY: Math.max(1, Math.min(6, prev.supplyAPY + (Math.random() - 0.5) * 0.1)),
-          borrowAPY: Math.max(4, Math.min(10, prev.borrowAPY + (Math.random() - 0.5) * 0.15)),
-        };
-      });
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const tvlValue = numbro(data?.metrics.tvl || 0)
+  const tvlValue = numbro(data.metrics.tvl || 0)
     .formatCurrency({ average: true, mantissa: 2, optionalMantissa: true })
     .toUpperCase();
 
@@ -150,14 +117,14 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
     : "critical";
 
   if (isLoadingNewProtocol) {
-    return <DashboardLoading />;
+    return <DashboardSkeleton />;
   }
 
   return (
     <>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
-          {data?.metrics.protocol} <span className="gradient-text">Risk Overview</span>
+          {data.metrics.protocol} <span className="gradient-text">Risk Overview</span>
         </h1>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
           {lastUpdated && `Data last updated: ${lastUpdated}`}
@@ -178,44 +145,44 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
           />
           <RiskOverviewCard
             title="Health Factor"
-            value={liveMetrics.healthFactor.toFixed(2)}
+            value={data.metrics.averageHealthFactor.toFixed(2)}
             tooltip="Ratio of collateral to debt. Values below 1.0 trigger liquidation"
             status={healthStatus}
             icon={Activity}
-            change={healthChange.value}
-            trend={healthChange.trend}
+            change={mockMetricChanges.healthFactor.value}
+            trend={mockMetricChanges.healthFactor.trend}
           />
           <RiskOverviewCard
             title="Utilization Rate"
-            value={`${(liveMetrics.utilizationRate * 100).toFixed(1)}%`}
+            value={`${(data.metrics.utilizationRate * 100).toFixed(1)}%`}
             tooltip="Percentage of available assets currently being borrowed"
             icon={Percent}
-            change={utilizationChange.value}
-            trend={utilizationChange.trend}
+            change={mockMetricChanges.utilizationRate.value}
+            trend={mockMetricChanges.utilizationRate.trend}
           />
           <RiskOverviewCard
             title="Supply APY"
-            value={`${liveMetrics.supplyAPY.toFixed(2)}%`}
+            value={`${(latestApy?.supplyAPY ?? 3.5).toFixed(2)}%`}
             tooltip="Annual percentage yield for supplying assets"
             icon={TrendingUp}
-            change={supplyAPYChange.value}
-            trend={supplyAPYChange.trend}
+            change={apy24hChanges.supply.value}
+            trend={apy24hChanges.supply.trend}
           />
           <RiskOverviewCard
             title="Borrow APY"
-            value={`${liveMetrics.borrowAPY.toFixed(2)}%`}
+            value={`${(latestApy?.borrowAPY).toFixed(2)}%`}
             tooltip="Annual percentage yield for borrowing assets"
             icon={TrendingUp}
-            change={borrowAPYChange.value}
-            trend={borrowAPYChange.trend}
+            change={apy24hChanges.borrow.value}
+            trend={apy24hChanges.borrow.trend}
           />
           <RiskOverviewCard
             title="24h Liquidations"
-            value={liveMetrics.liquidations.toString()}
+            value={data.metrics.liquidationsLast24h.toString()}
             tooltip="Number of positions liquidated in the past 24 hours"
             icon={ShieldAlert}
-            change={liquidationChange.value}
-            trend={liquidationChange.trend}
+            change={mockMetricChanges.liquidations.value}
+            trend={mockMetricChanges.liquidations.trend}
           />
         </div>
       </div>
@@ -224,7 +191,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
       <div className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">Market Overview</h2>
         <div className="mb-6">
-          <TimeSeriesChart data={data?.tvlHistory || []} title="TVL History (30 Days)" type="area" />
+          <TimeSeriesChart data={data.tvlHistory || []} title="TVL History (30 Days)" type="area" />
         </div>
       </div>
 
@@ -232,7 +199,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
       <div className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">Risk Metrics</h2>
         <div className="grid gap-6 lg:grid-cols-2">
-          <ConfidenceChart data={data?.tvlHistory || []} title="Projected Volatility (95% CI)" />
+          <ConfidenceChart data={data.tvlHistory || []} title="Projected Volatility (95% CI)" />
           <OracleDeviationChart data={oracleData} />
         </div>
       </div>
@@ -254,7 +221,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
             <LiquidationHeatmap data={riskPositions} />
           </div>
           <div>
-            <AssetDistributionChart />
+            <AssetDistributionChart data={tokenDistribution} />
           </div>
         </div>
       </div>
