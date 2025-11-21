@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { format } from "date-fns";
+import { ChartWatermark } from "./ChartWatermark";
 
 interface OracleDataPoint {
   timestamp: number;
@@ -32,11 +33,12 @@ export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
   const yDomain = [minPrice - padding, maxPrice + padding];
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-      <h3 className="mb-4 text-lg font-medium text-zinc-900 dark:text-white">
+    <div className="relative rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+      <ChartWatermark />
+      <h3 className="mb-4 text-lg font-medium text-zinc-900 dark:text-white relative" style={{ zIndex: 10 }}>
         Oracle Price Deviation
       </h3>
-      <div className="h-[300px] w-full">
+      <div className="h-[300px] w-full relative" style={{ zIndex: 10 }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 5, right: 5, left: 10, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-zinc-200 dark:text-zinc-800" vertical={false} />
@@ -76,7 +78,7 @@ export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
             <Line
               type="monotone"
               dataKey="chainlink"
-              stroke="#3b82f6" // Dull Blue
+              stroke="#3b82f6"
               strokeWidth={2}
               dot={false}
               name="Chainlink"
@@ -84,7 +86,7 @@ export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
             <Line
               type="monotone"
               dataKey="uniswap"
-              stroke="#ef4444" // Dull Red
+              stroke="#ef4444"
               strokeWidth={2}
               dot={false}
               name="Uniswap"
@@ -92,7 +94,7 @@ export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
             <Line
               type="monotone"
               dataKey="band"
-              stroke="#14b8a6" // Dull Teal
+              stroke="#14b8a6"
               strokeWidth={2}
               dot={false}
               name="Band Protocol"

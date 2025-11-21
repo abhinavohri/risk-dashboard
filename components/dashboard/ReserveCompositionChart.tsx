@@ -2,6 +2,7 @@
 
 import { memo } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from "recharts";
+import { ChartWatermark } from "./ChartWatermark";
 
 
 interface ReserveData {
@@ -22,11 +23,12 @@ function ReserveCompositionChartComponent({ data }: ReserveCompositionChartProps
   }));
 
   return (
-    <div className="rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
-      <h3 className="mb-6 text-lg font-semibold text-zinc-900 dark:text-white">
+    <div className="relative rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
+      <ChartWatermark />
+      <h3 className="mb-6 text-lg font-semibold text-zinc-900 dark:text-white relative" style={{ zIndex: 10 }}>
         Reserve Composition (Millions USD)
       </h3>
-      <div className="h-[300px] w-full">
+      <div className="h-[300px] w-full relative" style={{ zIndex: 10 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" className="dark:stroke-zinc-800" />

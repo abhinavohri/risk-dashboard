@@ -17,6 +17,7 @@ import numbro from "numbro";
 import { TimeSeriesPoint } from "@/types";
 import { cn } from "@/lib/utils";
 import { TimeRangeFilter, TimeRange, TIME_RANGE_MS } from "./TimeRangeFilter";
+import { ChartWatermark } from "./ChartWatermark";
 
 interface TimeSeriesChartProps {
   data: TimeSeriesPoint[];
@@ -64,8 +65,9 @@ export function TimeSeriesChart({
   const currentTab = tabs.find((t) => t.key === activeTab)!;
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-700 shadow-sm bg-gray-200/50 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl">
-      <div className="mb-4">
+    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-700 shadow-sm bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl dark:bg-zinc-900/80">
+      <ChartWatermark />
+      <div className="mb-4 relative" style={{ zIndex: 10 }}>
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">{title}</h3>
           <div className="flex gap-2">
@@ -87,7 +89,7 @@ export function TimeSeriesChart({
         </div>
         <TimeRangeFilter value={timeRange} onChange={setTimeRange} />
       </div>
-      <div className="h-[300px] w-full">
+      <div className="h-[300px] w-full relative" style={{ zIndex: 10 }}>
         <ResponsiveContainer width="100%" height="100%">
           <ChartComponent data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-zinc-200 dark:text-zinc-800" vertical={false} />

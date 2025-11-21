@@ -12,6 +12,7 @@ import {
   Cell,
 } from "recharts";
 import { RiskPosition } from "@/types";
+import { ChartWatermark } from "./ChartWatermark";
 
 interface LiquidationHeatmapProps {
   data: RiskPosition[];
@@ -19,7 +20,8 @@ interface LiquidationHeatmapProps {
 
 export function LiquidationHeatmap({ data }: LiquidationHeatmapProps) {
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="relative rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+      <ChartWatermark />
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Liquidation Risk Map</h3>
         <div className="flex items-center gap-3 text-xs">
@@ -45,18 +47,16 @@ export function LiquidationHeatmap({ data }: LiquidationHeatmapProps) {
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid />
-            <XAxis 
-              type="number" 
-              dataKey="collateralUSD" 
-              name="Collateral" 
-              unit="$" 
+            <XAxis
+              type="number"
+              dataKey="collateralUSD"
+              name="Collateral"
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
             />
-            <YAxis 
-              type="number" 
-              dataKey="borrowedUSD" 
-              name="Borrowed" 
-              unit="$" 
+            <YAxis
+              type="number"
+              dataKey="borrowedUSD"
+              name="Borrowed"
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
             />
             <Tooltip
@@ -87,13 +87,13 @@ export function LiquidationHeatmap({ data }: LiquidationHeatmapProps) {
             />
             <Scatter name="Positions" data={data} fill="#8884d8">
               {data.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
+                <Cell
+                  key={`cell-${index}`}
                   fill={
-                    entry.riskLevel === 'critical' ? '#ef4444' : 
-                    entry.riskLevel === 'high' ? '#f97316' : 
+                    entry.riskLevel === 'critical' ? '#ef4444' :
+                    entry.riskLevel === 'high' ? '#f97316' :
                     entry.riskLevel === 'medium' ? '#eab308' : '#22c55e'
-                  } 
+                  }
                 />
               ))}
             </Scatter>

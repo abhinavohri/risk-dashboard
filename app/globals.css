@@ -19,27 +19,27 @@
   --tooltip-bg: rgba(229, 231, 232, 0.95);
   --tooltip-border: #7B8183;
   --tooltip-text: #0C2529;
-  --tooltip-label: #3F4647;
+  --tooltip-label: hsl(187, 6%, 26%);
 }
 
 .dark {
-  --background: #162326; /* Primary background */
-  --foreground: #ffffff;
-  --primary: #fdf8d8; /* Heading/logo/button color */
-  --primary-dark: #fdf8d8;
-  --secondary: #fdf8d8;
-  --accent: #fdf8d8;
-  --accent-glow: rgba(253, 248, 216, 0.1);
-  --card-bg: #232e31; /* KPI card background */
-  --card-border: rgba(0, 0, 0, 0.3);
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --background: #0C2529; /* Llama Cyan */
+  --foreground: #F0EDE5; /* Llama Dune */
+  --primary: #F0EDE5; /* Llama Dune */
+  --primary-dark: #1A1A1A; /* Llama Black */
+  --secondary: #7B8183; /* Grey 02 */
+  --accent: #F0EDE5; /* Llama Dune */
+  --accent-glow: rgba(240, 237, 229, 0.1);
+  --card-bg: #1A1A1A; /* Llama Black */
+  --card-border: #3F4647; /* Grey 03 */
+  --glass-bg: rgba(240, 237, 229, 0.03);
+  --glass-border: rgba(240, 237, 229, 0.08);
 
   /* Tooltip styles */
-  --tooltip-bg: rgba(35, 46, 49, 0.95);
-  --tooltip-border: rgba(253, 248, 216, 0.2);
-  --tooltip-text: #ffffff;
-  --tooltip-label: #a1a1aa;
+  --tooltip-bg: rgba(26, 26, 26, 0.95);
+  --tooltip-border: #3F4647;
+  --tooltip-text: #F0EDE5;
+  --tooltip-label: #7B8183;
 }
 
 body {

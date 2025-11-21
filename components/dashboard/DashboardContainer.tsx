@@ -216,8 +216,8 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
       {/* Risk Analysis Section */}
       <div className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-[#fdf8d8]">Position Analysis</h2>
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div>
             <LiquidationHeatmap data={riskPositions} />
           </div>
           <div>

@@ -3,15 +3,15 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import { TokenDistribution } from "@/types";
 import numbro from "numbro";
+import { ChartWatermark } from "./ChartWatermark";
 
 interface AssetDistributionChartProps {
   data: TokenDistribution[];
 }
 
-const renderLegend = (props: any) => {
-  const { payload } = props;
+const CustomLegend = ({ payload }: any) => {
   return (
-    <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2">
+    <div className="flex flex-col gap-y-2">
       {payload.map((entry: any) => {
         const formattedValue = numbro(entry.payload.valueUsd).formatCurrency({
           average: true,
@@ -43,31 +43,37 @@ export function AssetDistributionChart({ data }: AssetDistributionChartProps) {
   }));
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 bg-gray-200/50 p-6 shadow-lg backdrop-blur-xl dark:bg-zinc-900">
-      <h3 className="mb-6 text-lg font-semibold text-zinc-900 dark:text-white">
+    <div className="relative overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl dark:bg-zinc-900/80">
+      <ChartWatermark />
+      <h3 className="mb-6 text-lg font-semibold text-zinc-900 dark:text-white relative" style={{ zIndex: 10 }}>
         Collateral Composition
       </h3>
       {chartData.length > 0 ? (
-        <div className="h-[400px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={chartData}
-                cx="50%"
-                cy="40%"
-                innerRadius={60}
-                outerRadius={100}
-                paddingAngle={2}
-                dataKey="value"
-                isAnimationActive={true}
-              >
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
-                ))}
-              </Pie>
-              <Legend content={renderLegend} verticalAlign="bottom" />
-            </PieChart>
-          </ResponsiveContainer>
+        <div className="flex items-center">
+          <div className="h-[300px] w-2/3 relative" style={{ zIndex: 10 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={100}
+                  paddingAngle={2}
+                  dataKey="value"
+                  isAnimationActive={true}
+                  legendType="none"
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="w-1/3">
+            <CustomLegend payload={chartData.map(c => ({...c, value: c.name, payload: c}))} />
+          </div>
         </div>
       ) : (
         <div className="flex h-[300px] items-center justify-center text-zinc-500">

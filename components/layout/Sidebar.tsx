@@ -23,9 +23,10 @@ export function Sidebar({ isOpen }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-20 w-64 transform border-r border-zinc-200/50 bg-white/80 backdrop-blur-xl transition-transform duration-200 ease-in-out dark:border-zinc-800/50 dark:bg-zinc-950/80 pt-16 md:translate-x-0",
+        "fixed inset-y-0 left-0 z-20 w-64 transform border-r bg-[#F0EDE5]/95 backdrop-blur-xl transition-transform duration-200 ease-in-out pt-16 md:translate-x-0 dark:border-[#3F4647] dark:bg-[#0C2529]/95",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}
+      style={{ borderColor: 'var(--card-border)' }}
     >
       <nav className="flex h-full flex-col gap-2 overflow-y-auto p-4">
         {NAV_ITEMS.map((item) => {
@@ -38,8 +39,8 @@ export function Sidebar({ isOpen }: SidebarProps) {
               className={cn(
                 "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
                 isActive
-                  ? "bg-gray-200/60 text-gray-900 dark:bg-zinc-800 dark:text-white"
-                  : "text-zinc-600 hover:bg-gray-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-white"
+                  ? "bg-[#E5E7E8] text-[#0C2529] dark:bg-[#1A1A1A] dark:text-[#F0EDE5]"
+                  : "text-[#3F4647] hover:bg-[#E5E7E8]/50 hover:text-[#0C2529] dark:text-[#7B8183] dark:hover:bg-[#1A1A1A]/50 dark:hover:text-[#F0EDE5]"
               )}
             >
               <item.icon className="h-5 w-5" />
