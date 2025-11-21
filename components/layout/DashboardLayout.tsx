@@ -8,7 +8,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-zinc-50 via-indigo-50/30 to-purple-50/30 dark:from-zinc-950 dark:via-indigo-950/20 dark:to-purple-950/20">
+    <div className="flex min-h-screen flex-col bg-gray-100 dark:bg-zinc-900">
       <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
       <div className="flex flex-1">
         <Sidebar isOpen={sidebarOpen} />

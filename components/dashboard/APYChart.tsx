@@ -55,7 +55,7 @@ function APYChartComponent({ data }: APYChartProps) {
             <Line
               type="monotone"
               dataKey="Supply APY"
-              stroke="#10b981"
+              stroke="#3b82f6" // Dull Blue
               strokeWidth={2}
               dot={false}
               name="Supply APY"
@@ -63,7 +63,7 @@ function APYChartComponent({ data }: APYChartProps) {
             <Line
               type="monotone"
               dataKey="Borrow APY"
-              stroke="#f59e0b"
+              stroke="#ef4444" // Dull Red
               strokeWidth={2}
               dot={false}
               name="Borrow APY"

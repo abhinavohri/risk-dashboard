@@ -3,14 +3,6 @@
 import { memo } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from "recharts";
 
-const ASSET_COLORS: Record<string, string> = {
-  ETH: "#627EEA",
-  WBTC: "#F7931A",
-  USDC: "#2775CA",
-  DAI: "#F5AC37",
-  USDT: "#26A17B",
-  LINK: "#2A5ADA",
-};
 
 interface ReserveData {
   asset: string;
@@ -63,8 +55,8 @@ function ReserveCompositionChartComponent({ data }: ReserveCompositionChartProps
               formatter={(value: number, name: string) => [`$${Number(value).toFixed(2)}M`, name]}
             />
             <Legend wrapperStyle={{ paddingTop: '20px' }} />
-            <Bar dataKey="Supplied" fill="#10b981" radius={[4, 4, 0, 0]} name="Supplied" />
-            <Bar dataKey="Borrowed" fill="#f59e0b" radius={[4, 4, 0, 0]} name="Borrowed" />
+            <Bar dataKey="Supplied" fill="#3b82f6" radius={[4, 4, 0, 0]} name="Supplied" />
+            <Bar dataKey="Borrowed" fill="#ef4444" radius={[4, 4, 0, 0]} name="Borrowed" />
           </BarChart>
         </ResponsiveContainer>
       </div>

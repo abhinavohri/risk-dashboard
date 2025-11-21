@@ -123,8 +123,8 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
-          {data.metrics.protocol} <span className="gradient-text">Risk Overview</span>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-[#fdf8d8]">
+          {data.metrics.protocol} <span className="text-zinc-600 dark:text-zinc-400">Risk Overview</span>
         </h1>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
           {lastUpdated && `Data last updated: ${lastUpdated}`}
@@ -133,7 +133,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
 
       {/* Key Metrics Section */}
       <div className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">Key Metrics</h2>
+        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-[#fdf8d8]">Key Metrics</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <RiskOverviewCard
             title="Total Value Locked"
@@ -189,7 +189,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
 
       {/* Market Overview Section */}
       <div className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">Market Overview</h2>
+        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-[#fdf8d8]">Market Overview</h2>
         <div className="mb-6">
           <TimeSeriesChart data={data.tvlHistory || []} title="TVL History (30 Days)" type="area" />
         </div>
@@ -197,7 +197,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
 
       {/* Risk Metrics Section */}
       <div className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">Risk Metrics</h2>
+        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-[#fdf8d8]">Risk Metrics</h2>
         <div className="grid gap-6 lg:grid-cols-2">
           <ConfidenceChart data={data.tvlHistory || []} title="Projected Volatility (95% CI)" />
           <OracleDeviationChart data={oracleData} />
@@ -206,7 +206,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
 
       {/* Supply & Borrow Section */}
       <div className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">Supply & Borrow</h2>
+        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-[#fdf8d8]">Supply & Borrow</h2>
         <div className="grid gap-6 lg:grid-cols-2">
           <APYChart data={apyData} />
           <ReserveCompositionChart data={reserveData} />
@@ -215,7 +215,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
 
       {/* Risk Analysis Section */}
       <div className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">Position Analysis</h2>
+        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-[#fdf8d8]">Position Analysis</h2>
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <LiquidationHeatmap data={riskPositions} />

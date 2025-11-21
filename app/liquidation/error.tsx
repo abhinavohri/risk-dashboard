@@ -30,7 +30,7 @@ export default function LiquidationError({
           </p>
           <button
             onClick={reset}
-            className="rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-xl"
+            className="rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-xl"
           >
             Try again
           </button>

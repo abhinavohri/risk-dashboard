@@ -64,7 +64,7 @@ export function TimeSeriesChart({
   const currentTab = tabs.find((t) => t.key === activeTab)!;
 
   return (
-    <div className="group overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5 dark:border-zinc-800/50 dark:bg-zinc-900/80">
+    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-700 shadow-sm bg-gray-200/50 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl">
       <div className="mb-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">{title}</h3>
@@ -76,7 +76,7 @@ export function TimeSeriesChart({
                 className={cn(
                   "rounded-lg px-3 py-1.5 text-sm font-medium transition-all",
                   activeTab === tab.key
-                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+                    ? "bg-[#fdf8d8] text-black shadow-md dark:bg-[#fdf8d8] dark:text-black"
                     : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
                 )}
               >

@@ -82,7 +82,7 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
                 className={cn(
                   "rounded-lg px-3 py-1.5 text-sm font-medium transition-all",
                   activeTab === tab.key
-                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+                    ? "bg-[#fdf8d8] text-black shadow-md dark:bg-[#fdf8d8] dark:text-black"
                     : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
                 )}
               >
@@ -96,12 +96,6 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={chartData}>
-            <defs>
-              <linearGradient id={`confidence-gradient-${activeTab}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={currentTab.color} stopOpacity={0.3}/>
-                <stop offset="95%" stopColor={currentTab.color} stopOpacity={0.05}/>
-              </linearGradient>
-            </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-zinc-200 dark:text-zinc-800" vertical={false} />
             <XAxis
               dataKey="timestamp"

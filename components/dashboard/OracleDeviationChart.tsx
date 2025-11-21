@@ -25,7 +25,6 @@ interface OracleDeviationChartProps {
 }
 
 export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
-  // Calculate Y-axis domain to make deviations more visible
   const allPrices = data.flatMap(d => [d.chainlink, d.uniswap, d.band]);
   const minPrice = Math.min(...allPrices);
   const maxPrice = Math.max(...allPrices);
@@ -77,7 +76,7 @@ export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
             <Line
               type="monotone"
               dataKey="chainlink"
-              stroke="#3b82f6"
+              stroke="#3b82f6" // Dull Blue
               strokeWidth={2}
               dot={false}
               name="Chainlink"
@@ -85,7 +84,7 @@ export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
             <Line
               type="monotone"
               dataKey="uniswap"
-              stroke="#ec4899"
+              stroke="#ef4444" // Dull Red
               strokeWidth={2}
               dot={false}
               name="Uniswap"
@@ -93,7 +92,7 @@ export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
             <Line
               type="monotone"
               dataKey="band"
-              stroke="#10b981"
+              stroke="#14b8a6" // Dull Teal
               strokeWidth={2}
               dot={false}
               name="Band Protocol"

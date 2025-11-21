@@ -24,19 +24,19 @@ export function LiquidationHeatmap({ data }: LiquidationHeatmapProps) {
         <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Liquidation Risk Map</h3>
         <div className="flex items-center gap-3 text-xs">
           <div className="flex items-center gap-1.5">
-            <div className="h-3 w-3 rounded-full bg-[#22c55e]" />
+            <div className="h-3 w-3 rounded-full bg-green-500" />
             <span className="text-zinc-600 dark:text-zinc-400">Healthy</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="h-3 w-3 rounded-full bg-[#eab308]" />
+            <div className="h-3 w-3 rounded-full bg-yellow-500" />
             <span className="text-zinc-600 dark:text-zinc-400">Medium</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="h-3 w-3 rounded-full bg-[#f97316]" />
+            <div className="h-3 w-3 rounded-full bg-orange-500" />
             <span className="text-zinc-600 dark:text-zinc-400">High Risk</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="h-3 w-3 rounded-full bg-[#ef4444]" />
+            <div className="h-3 w-3 rounded-full bg-red-500" />
             <span className="text-zinc-600 dark:text-zinc-400">Critical</span>
           </div>
         </div>

@@ -24,28 +24,18 @@ export function RiskOverviewCard({
   status,
 }: RiskOverviewCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-indigo-300/50 hover:shadow-xl hover:shadow-indigo-500/10 dark:border-zinc-800/50 dark:bg-zinc-900/80 dark:hover:border-indigo-700/50">
-      {/* Gradient overlay on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
+    <div className="group relative overflow-hidden rounded-2xl border bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 dark:border-black/30 dark:bg-[#232e31] dark:shadow-black/50" style={{ borderColor: 'var(--card-border)' }}>
       <div className="relative">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              {title}
-            </h3>
-            {tooltip && (
-              <div className="group/tooltip relative">
-                <HelpCircle className="h-3.5 w-3.5 text-zinc-400 cursor-help" />
-                <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-48 -translate-x-1/2 rounded-lg border border-zinc-200 bg-white p-2 text-xs text-zinc-600 opacity-0 shadow-lg transition-opacity group-hover/tooltip:opacity-100 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
-                  {tooltip}
-                </div>
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-[#fdf8d8]">
+            {title}
+          </h3>
+          {tooltip && (
+            <div className="group/tooltip relative">
+              <HelpCircle className="h-3.5 w-3.5 text-zinc-400 cursor-help" />
+              <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-48 -translate-x-1/2 rounded-lg border border-zinc-200 bg-white p-2 text-xs text-zinc-600 opacity-0 shadow-lg transition-opacity group-hover/tooltip:opacity-100 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+                {tooltip}
               </div>
-            )}
-          </div>
-          {Icon && (
-            <div className="rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 p-2">
-              <Icon className="h-4 w-4 text-white" />
             </div>
           )}
         </div>
@@ -66,14 +56,14 @@ export function RiskOverviewCard({
             <span className={cn(
               "ml-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
               status === "healthy"
-                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                ? "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400"
                 : status === "warning"
-                ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
-                : "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400"
+                ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
             )}>
               <span className={cn(
                 "h-1.5 w-1.5 rounded-full",
-                status === "healthy" ? "bg-emerald-500" : status === "warning" ? "bg-amber-500" : "bg-rose-500"
+                status === "healthy" ? "bg-cyan-500" : status === "warning" ? "bg-yellow-500" : "bg-red-500"
               )} />
               {status.toUpperCase()}
             </span>

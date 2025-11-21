@@ -38,8 +38,8 @@ export function Sidebar({ isOpen }: SidebarProps) {
               className={cn(
                 "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
                 isActive
-                  ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30"
-                  : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-white"
+                  ? "bg-gray-200/60 text-gray-900 dark:bg-zinc-800 dark:text-white"
+                  : "text-zinc-600 hover:bg-gray-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-white"
               )}
             >
               <item.icon className="h-5 w-5" />

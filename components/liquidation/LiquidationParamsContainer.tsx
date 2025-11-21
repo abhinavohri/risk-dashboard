@@ -15,7 +15,7 @@ export function LiquidationParamsContainer({ data, protocol }: LiquidationParams
     <>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
-          Asset Risk <span className="gradient-text">Parameters</span>
+          Asset Risk <span>Parameters</span>
         </h1>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
           Loan-to-Value ratios, liquidation penalties, and collateral configurations per asset

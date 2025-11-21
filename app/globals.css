@@ -3,49 +3,41 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Light mode - Modern crypto aesthetic */
-  --background: #f8f9fb;
-  --foreground: #0a0b0d;
-  --primary: #6366f1; /* Indigo */
-  --primary-dark: #4f46e5;
-  --secondary: #8b5cf6; /* Purple */
-  --accent: #14b8a6; /* Teal */
-  --accent-glow: rgba(99, 102, 241, 0.15);
-  --card-bg: rgba(255, 255, 255, 0.7);
-  --card-border: rgba(99, 102, 241, 0.1);
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --gradient-from: #6366f1;
-  --gradient-via: #8b5cf6;
-  --gradient-to: #14b8a6;
+  --background: #F0EDE5; /* Llama Dune */
+  --foreground: #0C2529; /* Llama Cyan */
+  --primary: #0C2529; /* Llama Cyan */
+  --primary-dark: #1A1A1A; /* Llama Black */
+  --secondary: #3F4647; /* Grey 03 */
+  --accent: #0C2529; /* Llama Cyan */
+  --accent-glow: rgba(12, 37, 41, 0.1);
+  --card-bg: #E5E7E8; /* Grey 01 */
+  --card-border: #7B8183; /* Grey 02 */
+  --glass-bg: rgba(229, 231, 232, 0.05);
+  --glass-border: rgba(229, 231, 232, 0.1);
 
   /* Tooltip styles */
-  --tooltip-bg: rgba(255, 255, 255, 0.95);
-  --tooltip-border: #e4e4e7;
-  --tooltip-text: #18181b;
-  --tooltip-label: #71717a;
+  --tooltip-bg: rgba(229, 231, 232, 0.95);
+  --tooltip-border: #7B8183;
+  --tooltip-text: #0C2529;
+  --tooltip-label: #3F4647;
 }
 
 .dark {
-  /* Dark mode - Cyberpunk crypto vibes */
-  --background: #0a0b0d;
-  --foreground: #f8f9fb;
-  --primary: #818cf8; /* Lighter indigo for dark */
-  --primary-dark: #6366f1;
-  --secondary: #a78bfa; /* Lighter purple */
-  --accent: #2dd4bf; /* Brighter teal */
-  --accent-glow: rgba(129, 140, 248, 0.2);
-  --card-bg: rgba(15, 16, 20, 0.8);
-  --card-border: rgba(129, 140, 248, 0.15);
+  --background: #162326; /* Primary background */
+  --foreground: #ffffff;
+  --primary: #fdf8d8; /* Heading/logo/button color */
+  --primary-dark: #fdf8d8;
+  --secondary: #fdf8d8;
+  --accent: #fdf8d8;
+  --accent-glow: rgba(253, 248, 216, 0.1);
+  --card-bg: #232e31; /* KPI card background */
+  --card-border: rgba(0, 0, 0, 0.3);
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.08);
-  --gradient-from: #818cf8;
-  --gradient-via: #a78bfa;
-  --gradient-to: #2dd4bf;
 
   /* Tooltip styles */
-  --tooltip-bg: rgba(15, 16, 20, 0.95);
-  --tooltip-border: rgba(129, 140, 248, 0.2);
+  --tooltip-bg: rgba(35, 46, 49, 0.95);
+  --tooltip-border: rgba(253, 248, 216, 0.2);
   --tooltip-text: #ffffff;
   --tooltip-label: #a1a1aa;
 }
@@ -72,27 +64,6 @@ body {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-}
-
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-via), var(--gradient-to));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Animated gradient background */
-.gradient-bg {
-  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-via), var(--gradient-to));
-  background-size: 200% 200%;
-  animation: gradientShift 8s ease infinite;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 /* Smooth scrolling */

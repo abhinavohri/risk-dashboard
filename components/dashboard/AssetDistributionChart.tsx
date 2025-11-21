@@ -11,7 +11,7 @@ interface AssetDistributionChartProps {
 const renderLegend = (props: any) => {
   const { payload } = props;
   return (
-    <div className="mt-4 grid grid-cols-2 gap-3">
+    <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2">
       {payload.map((entry: any) => {
         const formattedValue = numbro(entry.payload.valueUsd).formatCurrency({
           average: true,
@@ -24,7 +24,7 @@ const renderLegend = (props: any) => {
               className="h-3 w-3 rounded-full"
               style={{ backgroundColor: entry.color }}
             />
-            <span className="text-sm text-zinc-600 dark:text-zinc-400">
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">
               {entry.value}: {entry.payload.value.toFixed(1)}% ({formattedValue})
             </span>
           </div>
@@ -43,7 +43,7 @@ export function AssetDistributionChart({ data }: AssetDistributionChartProps) {
   }));
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
+    <div className="overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 bg-gray-200/50 p-6 shadow-lg backdrop-blur-xl dark:bg-zinc-900">
       <h3 className="mb-6 text-lg font-semibold text-zinc-900 dark:text-white">
         Collateral Composition
       </h3>
