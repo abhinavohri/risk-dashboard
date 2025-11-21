@@ -1,4 +1,4 @@
-import { ProtocolMetrics, TimeSeriesPoint, RiskPosition, OracleDeviationPoint, APYPoint, ReserveDataPoint, TokenDistribution } from "@/types";
+import { ProtocolMetrics, TimeSeriesPoint, RiskPosition, OracleDeviationPoint, APYPoint, ReserveDataPoint, TokenDistribution, AssetLiquidationConfig } from "@/types";
 import {
     generateProtocolMetrics,
     generateTimeSeriesData,
@@ -14,7 +14,7 @@ const TOKEN_COLORS: Record<string, string> = {
     'WETH': '#627EEA', 'ETH': '#627EEA', 'STETH': '#00A3FF',
     'WBTC': '#F7931A', 'BTC': '#F7931A',
     'USDC': '#2775CA', 'USDT': '#26A17B', 'DAI': '#F5AC37', 'FRAX': '#000000',
-    'AAVE': '#B6509E', 'LINK': '#2A5ADA', 'UNI': '#FF007A',
+    'AAVE': '#B6509E', 'LINK': '#2A5ADA', 'UNI': '#FF007A', 'COMP': '#00D395',
     'CRV': '#40649F', 'CVX': '#3A3A3A', 'BAL': '#1E1E1E',
 };
 
@@ -114,5 +114,11 @@ export async function fetchProtocolData(protocolSlug: string = "aave"): Promise<
 export async function fetchProtocolDataClient(protocolSlug: string = "aave-v3"): Promise<ProtocolData> {
     const response = await fetch(`/api/protocol?slug=${protocolSlug}`);
     if (!response.ok) throw new Error("Failed to fetch protocol data");
+    return response.json();
+}
+
+export async function fetchLiquidationDataClient(protocolSlug: string): Promise<AssetLiquidationConfig[]> {
+    const response = await fetch(`/api/liquidation?protocol=${protocolSlug}`);
+    if (!response.ok) throw new Error("Failed to fetch liquidation data");
     return response.json();
 }
