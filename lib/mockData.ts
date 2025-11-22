@@ -59,16 +59,21 @@ export const generateTimeSeriesData = (days: number = 30, protocol: string = "aa
         const change = (Math.random() - 0.45) * 500000;
         currentValue += change;
 
-        // Generate confidence intervals
         const volatility = currentValue * 0.05; // 5% volatility
         const upper = currentValue + volatility * (0.9 + Math.random() * 0.1); // 90-100% of volatility
         const lower = currentValue - volatility * (0.9 + Math.random() * 0.1);
+
+        const seed = (days - i) / days;
+        const borrow = 0.03 + seed * 0.05; // 3-8% borrow rate
+        const utilization = 0.5 + seed * 0.3; // 50-80% utilization
 
         data.push({
             timestamp: subDays(new Date(), i).getTime(),
             value: currentValue,
             upperBound: upper,
             lowerBound: lower,
+            borrow,
+            utilization,
         });
     }
     return data;

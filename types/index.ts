@@ -14,6 +14,8 @@ export interface TimeSeriesPoint {
   value: number;
   upperBound?: number;
   lowerBound?: number;
+  borrow?: number;
+  utilization?: number;
 }
 
 export interface RiskPosition {

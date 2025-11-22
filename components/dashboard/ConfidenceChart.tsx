@@ -29,32 +29,27 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
   const [activeTab, setActiveTab] = useState<VolatilityTab>("tvl");
   const [timeRange, setTimeRange] = useState<TimeRange>("30d");
 
-  const filteredData = React.useMemo(() => {
+  const chartData = React.useMemo(() => {
     const now = Date.now();
     const cutoffTime = now - TIME_RANGE_MS[timeRange];
-    return data.filter(point => point.timestamp >= cutoffTime);
-  }, [data, timeRange]);
-
-  const chartData = React.useMemo(() =>
-    filteredData.map((point, index) => {
-      const seed = index / filteredData.length;
-      const borrowRate = 0.03 + seed * 0.05; // 3-8% borrow rate
-      const utilizationValue = 0.5 + seed * 0.3;
+    return data.filter(point => point.timestamp >= cutoffTime).map((point) => {
+      const borrowValue = point.borrow ?? 0.05;
+      const utilizationValue = point.utilization ?? 0.65;
 
       return {
         timestamp: point.timestamp,
         tvlValue: point.value,
         tvlLower: point.lowerBound || point.value * 0.9,
         tvlUpper: point.upperBound || point.value * 1.1,
-        borrowValue: borrowRate,
-        borrowLower: borrowRate * 0.9,
-        borrowUpper: borrowRate * 1.1,
+        borrowValue,
+        borrowLower: borrowValue * 0.9,
+        borrowUpper: borrowValue * 1.1,
         utilizationValue,
         utilizationLower: Math.max(0.1, utilizationValue * 0.85),
         utilizationUpper: Math.min(0.95, utilizationValue * 1.15),
       };
-    }), [filteredData]
-  );
+    });
+  }, [data, timeRange]);
 
   const tabs: { key: VolatilityTab; label: string; color: string }[] = [
     { key: "tvl", label: "TVL", color: "#6366f1" },
@@ -65,7 +60,7 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
   const currentTab = tabs.find((t) => t.key === activeTab)!;
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
+    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl dark:border-zinc-700 dark:bg-zinc-900/80 dark:shadow-zinc-900/50">
       <ChartWatermark />
       <div className="mb-4 relative" style={{ zIndex: 10 }}>
         <div className="flex items-center justify-between mb-3">
@@ -137,16 +132,15 @@ export function ConfidenceChart({ data, title }: ConfidenceChartProps) {
               labelStyle={{ color: "var(--tooltip-label)" }}
               labelFormatter={(timestamp) => format(new Date(timestamp), "MMM d, yyyy")}
               formatter={(value: number, name: string) => {
-                if (name.includes("Upper")) return [`${activeTab === "borrow" ? (value * 100).toFixed(2) + "%" : activeTab === "utilization" ? (value * 100).toFixed(1) + "%" : "$" + (value / 1000000).toFixed(2) + "M"}`, "Upper 95% CI"];
-                if (name.includes("Lower")) return [`${activeTab === "borrow" ? (value * 100).toFixed(2) + "%" : activeTab === "utilization" ? (value * 100).toFixed(1) + "%" : "$" + (value / 1000000).toFixed(2) + "M"}`, "Lower 95% CI"];
-                return [
+                const formatValue = (v: number) =>
                   activeTab === "borrow"
-                    ? `${(value * 100).toFixed(2)}%`
+                    ? `${(v * 100).toFixed(2)}%`
                     : activeTab === "utilization"
-                    ? `${(value * 100).toFixed(1)}%`
-                    : `$${(value / 1000000).toFixed(2)}M`,
-                  "Value"
-                ];
+                    ? `${(v * 100).toFixed(1)}%`
+                    : numbro(v).formatCurrency({ average: true, mantissa: 2 }).toUpperCase();
+                if (name.includes("Upper")) return [formatValue(value), "Upper 95% CI"];
+                if (name.includes("Lower")) return [formatValue(value), "Lower 95% CI"];
+                return [formatValue(value), "Value"];
               }}
             />
 

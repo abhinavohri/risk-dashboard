@@ -37,22 +37,11 @@ export function TimeSeriesChart({
   const ChartComponent = type === "line" ? LineChart : AreaChart;
   const DataComponent = type === "line" ? Line : Area;
 
-  const filteredData = React.useMemo(() => {
+  const chartData = React.useMemo(() => {
     const now = Date.now();
     const cutoffTime = now - TIME_RANGE_MS[timeRange];
     return data.filter(point => point.timestamp >= cutoffTime);
   }, [data, timeRange]);
-
-  const chartData = React.useMemo(() =>
-    filteredData.map((point, index) => {
-      const seed = index / filteredData.length;
-      return {
-        ...point,
-        borrow: 0.03 + seed * 0.05, // 3-8% borrow rate
-        utilization: 0.5 + seed * 0.3, // 50-80% utilization
-      };
-    }), [filteredData]
-  );
 
   const tabs: { key: MetricTab; label: string; color: string }[] = [
     { key: "tvl", label: "TVL", color: "#6366f1" },
@@ -63,7 +52,7 @@ export function TimeSeriesChart({
   const currentTab = tabs.find((t) => t.key === activeTab)!;
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-700 shadow-sm bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl dark:bg-zinc-900/80">
+    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:shadow-xl dark:border-zinc-700 dark:bg-zinc-900/80 dark:shadow-zinc-900/50">
       <ChartWatermark />
       <div className="mb-4 relative" style={{ zIndex: 10 }}>
         <div className="flex items-center justify-between mb-3">
@@ -139,7 +128,7 @@ export function TimeSeriesChart({
                   ? [`${(value * 100).toFixed(2)}%`, "Borrow Rate"]
                   : activeTab === "utilization"
                   ? [`${(value * 100).toFixed(1)}%`, "Utilization"]
-                  : [`$${(value / 1000000).toFixed(2)}M`, "TVL"]
+                  : [numbro(value).formatCurrency({ average: true, mantissa: 2 }).toUpperCase(), "TVL"]
               }
             />
             <DataComponent
