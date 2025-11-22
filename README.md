@@ -25,7 +25,7 @@ A responsive, data-intensive dashboard for monitoring DeFi protocol metrics, liq
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/abhinavohri/risk-dashboard.git
    cd risk_dashboard
    ```
 
@@ -48,9 +48,8 @@ A responsive, data-intensive dashboard for monitoring DeFi protocol metrics, liq
 ## Assumptions & Trade-offs
 
 - **Data Source**: Since real-time risk data is expensive or requires complex indexing, this project uses a hybrid approach. It fetches basic protocol data (TVL) from DefiLlama when possible, but relies on realistic mock data generators for granular risk metrics (positions, oracle events).
-- **Confidence Intervals**: The confidence interval chart uses a simulated volatility model. In a production environment, this would be calculated using historical volatility or VaR models.
 - **Heatmap**: Recharts ScatterChart is used to approximate a heatmap for liquidation risk. A dedicated heatmap library or Canvas-based solution might be more performant for thousands of positions.
 
 ## Live Demo
 
-[Insert Live Demo URL Here]
+https://risk-dashboard-eight.vercel.app/
