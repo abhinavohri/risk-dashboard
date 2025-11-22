@@ -12,7 +12,7 @@ interface FeatureCardProps {
 
 function FeatureCard({ icon, title, description }: Omit<FeatureCardProps, 'gradient'>) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 backdrop-blur-xl transition-all duration-300 hover:border-zinc-300/50 hover:shadow-lg dark:border-zinc-800/50 dark:bg-zinc-900/50 dark:hover:border-zinc-700/50">
+    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-zinc-300/50 hover:shadow-xl dark:border-zinc-700 dark:bg-zinc-900/80 dark:shadow-zinc-900/50 dark:hover:border-zinc-600">
       {/* Icon container */}
       <div className="mb-4 inline-flex rounded-xl border border-[#0b282d]/10 bg-[#f1ede5] p-3">
         <div className="text-[#0b282d]">

@@ -23,7 +23,7 @@ function ReserveCompositionChartComponent({ data }: ReserveCompositionChartProps
   }));
 
   return (
-    <div className="relative rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-900/80">
+    <div className="relative rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl dark:border-zinc-700 dark:bg-zinc-900/80 dark:shadow-zinc-900/50">
       <ChartWatermark />
       <h3 className="mb-6 text-lg font-semibold text-zinc-900 dark:text-white relative" style={{ zIndex: 10 }}>
         Reserve Composition (Millions USD)

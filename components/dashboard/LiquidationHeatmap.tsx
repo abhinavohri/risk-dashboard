@@ -20,7 +20,7 @@ interface LiquidationHeatmapProps {
 
 export function LiquidationHeatmap({ data }: LiquidationHeatmapProps) {
   return (
-    <div className="relative rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="relative h-full rounded-xl border border-zinc-200 bg-white p-6 shadow-lg dark:border-zinc-700 dark:bg-zinc-900/80 dark:shadow-zinc-900/50">
       <ChartWatermark />
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Liquidation Risk Map</h3>

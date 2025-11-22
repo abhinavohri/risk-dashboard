@@ -54,7 +54,7 @@ export function EventCard({ event }: EventCardProps) {
   };
 
   return (
-    <div className="flex items-start space-x-3 p-3 bg-zinc-50 dark:bg-zinc-800/80 rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-sm dark:shadow-zinc-900/50 mb-2">
+    <div className="flex items-start space-x-3 p-3 bg-zinc-50 dark:bg-zinc-800/60 rounded-lg border border-zinc-200 dark:border-zinc-600 shadow-sm dark:shadow-zinc-900/30 mb-2">
       <div className="shrink-0 mt-0.5">{getEventIcon(event.type)}</div>
       <div className="grow min-w-0">
         <div className="flex items-center space-x-2 text-zinc-700 dark:text-zinc-300">

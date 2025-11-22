@@ -10,7 +10,7 @@ export function AaveEventsStream() {
   const events = useQuery(api.aaveEvents.getRecentEvents);
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white/50 p-6 shadow-lg backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-900/50">
+    <div className="rounded-xl border border-zinc-200 bg-white/50 p-6 shadow-lg backdrop-blur-xl dark:border-zinc-700 dark:bg-zinc-900/80 dark:shadow-zinc-900/50">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-medium text-zinc-900 dark:text-white">Aave v3 Live Events</h3>
         <Tooltip.Provider>
@@ -33,7 +33,7 @@ export function AaveEventsStream() {
           </Tooltip.Root>
         </Tooltip.Provider>
       </div>
-      <div className="h-[60vh] overflow-y-auto rounded-lg bg-zinc-50/50 dark:bg-zinc-900/50 p-2">
+      <div className="h-[60vh] overflow-y-auto rounded-lg bg-zinc-50/50 dark:bg-zinc-800/50 p-2">
         <AnimatePresence initial={false}>
           {events?.map((event) => (
             <EventCard key={event.transactionHash + event.logIndex} event={event} />

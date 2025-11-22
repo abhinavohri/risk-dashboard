@@ -24,7 +24,7 @@ export function RiskOverviewCard({
   status,
 }: RiskOverviewCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 dark:border-black/30 dark:bg-[#232e31] dark:shadow-black/50" style={{ borderColor: 'var(--card-border)' }}>
+    <div className="group relative overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-300 dark:border-zinc-700 dark:bg-zinc-900/80 dark:shadow-zinc-900/50">
       <div className="relative">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-[#fdf8d8]">

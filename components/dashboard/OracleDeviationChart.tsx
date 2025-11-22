@@ -33,7 +33,7 @@ export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
   const yDomain = [minPrice - padding, maxPrice + padding];
 
   return (
-    <div className="relative rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="relative rounded-xl border border-zinc-200 bg-white p-6 shadow-lg dark:border-zinc-700 dark:bg-zinc-900/80 dark:shadow-zinc-900/50">
       <ChartWatermark />
       <h3 className="mb-4 text-lg font-medium text-zinc-900 dark:text-white relative" style={{ zIndex: 10 }}>
         Oracle Price Deviation
