@@ -191,7 +191,7 @@ export function DashboardContainer({ initialData }: DashboardContainerProps) {
       <div className="mb-8">
         <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-[#fdf8d8]">Market Overview</h2>
         <div className="mb-6">
-          <TimeSeriesChart data={data.tvlHistory || []} title="TVL History (30 Days)" type="area" />
+          <TimeSeriesChart data={data.tvlHistory || []} title="TVL History" type="area" />
         </div>
       </div>
 
