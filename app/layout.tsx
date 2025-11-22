@@ -4,6 +4,7 @@ import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { ProtocolProvider } from "@/components/providers/ProtocolProvider";
+import ConvexClientProvider from "@/components/providers/ConvexClientProvider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -28,9 +29,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={spaceGrotesk.className}>
         <React.Suspense>
-          <ProtocolProvider>
-            <QueryProvider>{children}</QueryProvider>
-          </ProtocolProvider>
+          <ConvexClientProvider>
+            <ProtocolProvider>
+              <QueryProvider>{children}</QueryProvider>
+            </ProtocolProvider>
+          </ConvexClientProvider>
         </React.Suspense>
       </body>
     </html>

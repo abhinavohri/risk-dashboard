@@ -39,7 +39,7 @@ export default function LandingPage() {
           <h1 className="mb-6 text-5xl font-bold tracking-tight text-[#f1ede5] sm:text-7xl lg:text-8xl">
             Monitor DeFi Risks
             <br />
-            <span className="text-white">With Llama Risk</span>
+            <span className="text-white">With LlamaRisk</span>
           </h1>
 
           {/* Subheading */}

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Target } from "lucide-react";
+import { LayoutDashboard, Target, Rss } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useProtocol } from "@/components/providers/ProtocolProvider"; // Import useProtocol
 
@@ -14,6 +14,7 @@ interface SidebarProps {
 const NAV_ITEMS = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { label: "Liquidation", icon: Target, href: "/liquidation" },
+  { label: "Live", icon: Rss, href: "/live" },
 ];
 
 export function Sidebar({ isOpen }: SidebarProps) {
