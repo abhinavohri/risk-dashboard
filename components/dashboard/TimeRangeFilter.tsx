@@ -3,10 +3,43 @@
 import { cn } from "@/lib/utils";
 
 export type TimeRange = "7d" | "30d" | "90d" | "1y" | "all";
+export type MetricTab = "tvl" | "borrow" | "utilization";
 
 interface TimeRangeFilterProps {
   value: TimeRange;
   onChange: (range: TimeRange) => void;
+}
+
+interface MetricTabsProps {
+  value: MetricTab;
+  onChange: (tab: MetricTab) => void;
+}
+
+export const METRIC_TABS: { key: MetricTab; label: string; color: string }[] = [
+  { key: "tvl", label: "TVL", color: "#6366f1" },
+  { key: "borrow", label: "Borrow Rate", color: "#8b5cf6" },
+  { key: "utilization", label: "Utilization", color: "#14b8a6" },
+];
+
+export function MetricTabs({ value, onChange }: MetricTabsProps) {
+  return (
+    <div className="flex gap-2">
+      {METRIC_TABS.map((tab) => (
+        <button
+          key={tab.key}
+          onClick={() => onChange(tab.key)}
+          className={cn(
+            "rounded-lg px-3 py-1.5 text-sm font-medium transition-all",
+            value === tab.key
+              ? "bg-[#fdf8d8] text-black shadow-md dark:bg-[#fdf8d8] dark:text-black"
+              : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+          )}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 const timeRanges: { key: TimeRange; label: string }[] = [

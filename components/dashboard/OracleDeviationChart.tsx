@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import {
   LineChart,
   Line,
@@ -12,7 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { format } from "date-fns";
-import { ChartWatermark } from "./ChartWatermark";
+import { ChartContainer } from "./ChartContainer";
 
 interface OracleDataPoint {
   timestamp: number;
@@ -29,79 +28,52 @@ export function OracleDeviationChart({ data }: OracleDeviationChartProps) {
   const allPrices = data.flatMap(d => [d.chainlink, d.uniswap, d.band]);
   const minPrice = Math.min(...allPrices);
   const maxPrice = Math.max(...allPrices);
-  const padding = (maxPrice - minPrice) * 0.1; // 10% padding
+  const padding = (maxPrice - minPrice) * 0.1;
   const yDomain = [minPrice - padding, maxPrice + padding];
 
   return (
-    <div className="relative rounded-xl border border-zinc-200 bg-white p-6 shadow-lg dark:border-zinc-700 dark:bg-zinc-900/80 dark:shadow-zinc-900/50">
-      <ChartWatermark />
-      <h3 className="mb-4 text-lg font-medium text-zinc-900 dark:text-white relative" style={{ zIndex: 10 }}>
-        Oracle Price Deviation
-      </h3>
-      <div className="h-[300px] w-full relative" style={{ zIndex: 10 }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 5, right: 5, left: 10, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-zinc-200 dark:text-zinc-800" vertical={false} />
-            <XAxis
-              dataKey="timestamp"
-              tickFormatter={(timestamp) => format(new Date(timestamp), "HH:mm")}
-              stroke="currentColor"
-              className="text-zinc-400 dark:text-zinc-500"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-              label={{ value: 'Time', position: 'insideBottom', offset: -5, style: { fill: '#71717a', fontSize: 12 } }}
-            />
-            <YAxis
-              domain={yDomain}
-              stroke="currentColor"
-              className="text-zinc-400 dark:text-zinc-500"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `$${value.toFixed(0)}`}
-              label={{ value: 'Price (USD)', angle: -90, position: 'insideLeft', style: { fill: '#71717a', fontSize: 12 } }}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "var(--tooltip-bg)",
-                border: "1px solid var(--tooltip-border)",
-                borderRadius: "12px",
-                backdropFilter: "blur(16px)",
-                color: "var(--tooltip-text)",
-              }}
-              labelStyle={{ color: "var(--tooltip-label)" }}
-              labelFormatter={(timestamp) => format(new Date(timestamp), "MMM d, HH:mm")}
-              formatter={(value: number, name: string) => [`$${Number(value).toFixed(2)}`, name]}
-            />
-            <Legend wrapperStyle={{ paddingTop: '20px' }} />
-            <Line
-              type="monotone"
-              dataKey="chainlink"
-              stroke="#3b82f6"
-              strokeWidth={2}
-              dot={false}
-              name="Chainlink"
-            />
-            <Line
-              type="monotone"
-              dataKey="uniswap"
-              stroke="#ef4444"
-              strokeWidth={2}
-              dot={false}
-              name="Uniswap"
-            />
-            <Line
-              type="monotone"
-              dataKey="band"
-              stroke="#14b8a6"
-              strokeWidth={2}
-              dot={false}
-              name="Band Protocol"
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
+    <ChartContainer title="Oracle Price Deviation">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 5, right: 5, left: 10, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-zinc-200 dark:text-zinc-800" vertical={false} />
+          <XAxis
+            dataKey="timestamp"
+            tickFormatter={(timestamp) => format(new Date(timestamp), "HH:mm")}
+            stroke="currentColor"
+            className="text-zinc-400 dark:text-zinc-500"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+            label={{ value: 'Time', position: 'insideBottom', offset: -5, style: { fill: '#71717a', fontSize: 12 } }}
+          />
+          <YAxis
+            domain={yDomain}
+            stroke="currentColor"
+            className="text-zinc-400 dark:text-zinc-500"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+            tickFormatter={(value) => `$${value.toFixed(0)}`}
+            label={{ value: 'Price (USD)', angle: -90, position: 'insideLeft', style: { fill: '#71717a', fontSize: 12 } }}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "var(--tooltip-bg)",
+              border: "1px solid var(--tooltip-border)",
+              borderRadius: "12px",
+              backdropFilter: "blur(16px)",
+              color: "var(--tooltip-text)",
+            }}
+            labelStyle={{ color: "var(--tooltip-label)" }}
+            labelFormatter={(timestamp) => format(new Date(timestamp), "MMM d, HH:mm")}
+            formatter={(value: number, name: string) => [`$${Number(value).toFixed(2)}`, name]}
+          />
+          <Legend wrapperStyle={{ paddingTop: '20px' }} />
+          <Line type="monotone" dataKey="chainlink" stroke="#3b82f6" strokeWidth={2} dot={false} name="Chainlink" />
+          <Line type="monotone" dataKey="uniswap" stroke="#ef4444" strokeWidth={2} dot={false} name="Uniswap" />
+          <Line type="monotone" dataKey="band" stroke="#14b8a6" strokeWidth={2} dot={false} name="Band Protocol" />
+        </LineChart>
+      </ResponsiveContainer>
+    </ChartContainer>
   );
 }
