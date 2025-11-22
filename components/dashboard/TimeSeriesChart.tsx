@@ -15,7 +15,7 @@ import {
 import { format } from "date-fns";
 import numbro from "numbro";
 import { TimeSeriesPoint } from "@/types";
-import { TimeRangeFilter, TimeRange, TIME_RANGE_MS, MetricTabs, MetricTab, METRIC_TABS } from "./TimeRangeFilter";
+import { TimeRangeFilter, TimeRange, TIME_RANGE_MS, MetricTabs, MetricTab, METRIC_TABS } from "./ChartFilters";
 import { ChartContainer } from "./ChartContainer";
 
 interface TimeSeriesChartProps {
