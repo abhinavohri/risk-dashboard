@@ -10,13 +10,10 @@ import {
 
 const DEFILLAMA_API = "https://api.llama.fi";
 
-const TOKEN_COLORS: Record<string, string> = {
-    'WETH': '#627EEA', 'ETH': '#627EEA', 'STETH': '#00A3FF',
-    'WBTC': '#F7931A', 'BTC': '#F7931A',
-    'USDC': '#2775CA', 'USDT': '#26A17B', 'DAI': '#F5AC37', 'FRAX': '#000000',
-    'AAVE': '#B6509E', 'LINK': '#2A5ADA', 'UNI': '#FF007A', 'COMP': '#00D395',
-    'CRV': '#40649F', 'CVX': '#3A3A3A', 'BAL': '#1E1E1E',
-};
+const CHART_COLORS = [
+    '#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f97316',
+    '#eab308', '#22c55e', '#14b8a6', '#06b6d4', '#3b82f6',
+];
 
 export interface ProtocolData {
     metrics: ProtocolMetrics;
@@ -72,11 +69,11 @@ export async function fetchProtocolData(protocolSlug: string = "aave"): Promise<
 
             const totalValue = tokenEntries.reduce((sum, t) => sum + t.value, 0);
 
-            tokenDistribution = topTokens.map(({ name, value }) => ({
+            tokenDistribution = topTokens.map(({ name, value }, index) => ({
                 name,
                 value,
                 percentage: (value / totalValue) * 100,
-                color: TOKEN_COLORS[name] || `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+                color: CHART_COLORS[index % CHART_COLORS.length],
             }));
 
             if (otherValue > 0) {
