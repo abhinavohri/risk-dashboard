@@ -101,7 +101,7 @@ function KPISkeleton() {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="h-32 animate-pulse rounded-2xl border border-zinc-200/50 bg-zinc-100 dark:border-zinc-800/50 dark:bg-zinc-800"
+            className="h-32 animate-pulse rounded-2xl border border-zinc-200/50 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800"
           />
         ))}
       </div>
@@ -109,7 +109,7 @@ function KPISkeleton() {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="h-28 animate-pulse rounded-2xl border border-zinc-200/50 bg-zinc-100 dark:border-zinc-800/50 dark:bg-zinc-800"
+            className="h-28 animate-pulse rounded-2xl border border-zinc-200/50 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800"
           />
         ))}
       </div>
