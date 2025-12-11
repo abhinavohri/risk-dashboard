@@ -6,8 +6,6 @@ import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { ProtocolSelector } from "@/components/dashboard/ProtocolSelector";
-import Image from "next/image";
-import logo from "@/public/LlamaRisk-logo-light.svg"
 
 export function Header({ toggleSidebar }: { toggleSidebar: () => void }) {
   const pathname = usePathname();
@@ -21,7 +19,6 @@ export function Header({ toggleSidebar }: { toggleSidebar: () => void }) {
           <Menu className="h-5 w-5" />
         </button>
         <Link href="/" className="flex items-center gap-2 font-bold text-xl hover:opacity-80 transition-opacity">
-          <Image src={logo} alt="LlamaRisk" width={120} height={32} className="h-8 w-auto dark:invert-0 invert" />
         </Link>
       </div>
 

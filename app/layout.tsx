@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "LlamaRisk - Protocol Risk Monitor",
+  title: "Protocol Risk Monitor",
   description: "Advanced DeFi protocol risk monitoring and analytics",
   icons: {
     icon: "/logo.svg",

@@ -29,7 +29,6 @@ export default function LandingPage() {
         {/* Hero Content */}
         <div className="relative z-10 mx-auto max-w-5xl text-center">
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#f1ede5]/20 bg-[#f1ede5]/10 px-4 py-2 backdrop-blur-sm">
-            <Image src={logo} alt="LlamaRisk logo" width={36} height={36} priority className="inline-block" />
             <span className="text-sm font-medium text-[#f1ede5]">
               Professional DeFi Risk Analytics
             </span>
@@ -39,7 +38,7 @@ export default function LandingPage() {
           <h1 className="mb-6 text-5xl font-bold tracking-tight text-[#f1ede5] sm:text-7xl lg:text-8xl">
             Monitor DeFi Risks
             <br />
-            <span className="text-white">With LlamaRisk</span>
+            <span className="text-white">With RiskScan</span>
           </h1>
 
           {/* Subheading */}
@@ -109,7 +108,7 @@ export default function LandingPage() {
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <div className="text-center md:text-left">
               <h3 className="mb-2 text-xl font-bold text-zinc-900 dark:text-[#fdf8d8]">
-                LlamaRisk Dashboard
+                RiskScan Dashboard
               </h3>
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
                 Professional protocol risk monitoring
@@ -137,7 +136,7 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-8 border-t border-zinc-200 pt-8 text-center text-sm text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">
-            © {new Date().getFullYear()} LlamaRisk. All rights reserved.
+            © {new Date().getFullYear()} All rights reserved.
           </div>
         </div>
       </footer>
